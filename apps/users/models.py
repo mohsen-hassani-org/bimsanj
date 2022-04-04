@@ -49,6 +49,11 @@ class User(AbstractUser, AbstractModel):
     def get_absolute_url(self):
         return reverse('users:user_details', kwargs={'pk': self.pk})
 
+    def save(self, *args, **kwargs):
+        if self.email == '':
+            self.email = None
+        super().save(*args, **kwargs)
+
     @property
     def display_name(self) -> str:
         return (
