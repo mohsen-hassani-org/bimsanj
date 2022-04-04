@@ -1,0 +1,190 @@
+{% load static i18n %}
+{% get_current_language as LANG %}
+{% get_current_language_bidi as BIDI %}
+{% get_available_languages as LANGUAGES %}
+<!DOCTYPE html>
+<html lang="{{LANG}}" {% if BIDI %}dir="rtl" {% endif %}>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="fontiran.com:license" content="Y68A9" />
+    <link rel="icon" href="{% static "images/favicon.ico" %}" type="image/ico"
+    />
+    <title>
+      {% block title %} {% trans 'پنل مدیریت' %} | {{settings.site_settings}}
+      {% endblock title %}
+    </title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    {% if BIDI %}
+    <link href="{% static 'css/bootstrap-rtl.min.css' %}" rel="stylesheet" />
+    {% endif %}
+    <!-- Font Awesome -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+
+    <!-- Custom Theme Style -->
+    <link href="{% static 'css/custom.min.css' %}" rel="stylesheet" />
+    {% if BIDI %}
+    <link href="{% static 'css/custom-rtl.min.css' %}" rel="stylesheet" />
+    {% endif %} {% block extra_head %}{% endblock %}
+    <script src="{% static 'js/tailwind.js' %}"></script>
+  </head>
+  <!-- /header content -->
+
+  <body class="nav-md">
+    <div class="container body max-w-[1800px]">
+      <div class="main_container">
+        <div class="col-md-3 left_col hidden-print">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0">
+              <a href="index.html" class="site_title">
+                <i class="fa fa-institution"></i>
+                <small> {% trans 'پنل مدیریت' %} </small>
+                <div style="clear: both"></div>
+              </a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- sidebar menu -->
+            <div
+              id="sidebar-menu"
+              class="main_menu_side hidden-print main_menu"
+            >
+              <div class="menu_section">
+                <ul class="nav side-menu">
+
+                  <!-- WEBSITE HOME PAGE BEGIN-->
+                  <li>
+                    <a href="{% url 'users:dashboard' %}"
+                      ><i class="fa fa-dashboard"></i>{% trans 'داشبورد' %}</a
+                    >
+                  </li>
+                  <!-- WEBSITE HOME PAGE END -->
+                </ul>
+              </div>
+            </div>
+            <!-- /sidebar menu -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav hidden-print">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div> 
+              <div class="search-box md:visible invisible md:w-96 w-0">
+                {% include 'components/global-search.html' %}
+              </div>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a
+                    href="javascript:;"
+                    class="user-profile dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img src="{{user.avatar_url}}" alt="{{user.display_name}}" class="inline"/>
+                    <span class="fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li>
+                      <a>{{user.display_name}}, خوش آمدید!</a>
+                    </li>
+                    <li>
+                      <a href="{% url 'auth:logout' %}"
+                        ><i class="fa fa-sign-out pull-right"></i> خروج</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li role="presentation" class="dropdown">
+                  <a
+                    href="javascript:;"
+                    class="dropdown-toggle info-number"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i class="fa fa-bell-o"></i>
+                    <span class="badge bg-green">{{alerts_count}}</span>
+                  </a>
+                  <ul
+                    id="menu1"
+                    class="dropdown-menu list-unstyled msg_list"
+                    role="menu"
+                  >
+                  {% for user_alert in alerts %}
+                    <li>
+                      <a>
+                        <span class="image"
+                          ><img
+                            src="{% static 'images/user.png' %}"
+                            alt="Profile Image"
+                        /></span>
+                        <span>
+                          <span>{{user_alert.alert.title}}</span>
+                          <span class="time">{{user_alert.alert.created_at|timesince}}</span>
+                        </span>
+                        <span class="message">
+                          {{user_alert.alert.body}}
+                        </span>
+                      </a>
+                    </li>
+                    {% endfor %}
+                    <li>
+                      <div class="text-center">
+                        <a href="{% url 'core:alerts' %}">
+                          <strong>مشاهده تمام اعلان ها</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <div class="search-box md:hidden w-full px-5 mt-0 mb-5">
+                {% include 'components/global-search.html' %}
+              </div>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          {%block page_content%} {%endblock page_content%}
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer class="hidden-print">
+          <div class="pull-left"></div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/django_jalali.min.js' %}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{% static 'js/custom.min.js' %}"></script>
+
+    <!-- Table To Csv Downloader Script-->
+    <script src="{% static 'js/table2csv.js' %}"></script>
+
+    <!-- Extra Scripts -->
+    {% block extra_scripts %}{% endblock %}
+  </body>
+</html>

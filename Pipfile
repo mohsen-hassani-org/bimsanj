@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+python-dotenv = "*"
+django-shell-plus = "*"
+ipython = "*"
+django-extensions = "*"
+django-crispy-forms = "*"
+crispy-tailwind = "*"
+django-jalali-date = "*"
+django-widget-tweaks = "*"
+django-rest-framework = "*"
+gunicorn = "*"
+django-heroku = "*"
+pillow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

@@ -1,0 +1,61 @@
+{% extends 'users/auth/auth-base.html' %} {% block content %}
+<form class="bg-white" method="POST">
+  {% csrf_token %}
+  <h1 class="text-gray-800 font-bold text-2xl mb-1">تکمیل ثبت نام</h1>
+  <p class="text-sm font-normal text-gray-600 mb-7">
+    لطفا اطلاعات خود را به صورت کامل وارد نمایید.
+  </p>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.first_name }} </div>
+  <div class="">
+    {% for error in form.first_name.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.last_name }} </div>
+  <div class="">
+    {% for error in form.last_name.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.password }} </div>
+  <div class="">
+    {% for error in form.password.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.password_confirm }} </div>
+  <div class="">
+    {% for error in form.password_confirm.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <button
+    type="submit"
+    class="
+      block
+      w-full
+      bg-indigo-600
+      mt-4
+      py-2
+      rounded-2xl
+      text-white
+      font-semibold
+      mb-2
+    "
+  >
+    ورود به سامانه
+  </button>
+  <div class="flex justify-between items-center mt-4">
+    <a
+      href="{% url 'auth:get_phone' %}"
+      class="
+        text-indigo-600
+        text-sm
+        font-semibold
+        hover:text-indigo-500
+      "
+    >
+    بازگشت
+    </a>
+</form>
+{% endblock content %}
