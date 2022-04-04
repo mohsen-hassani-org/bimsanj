@@ -43,6 +43,7 @@ def construct_change_message(request, form, formsets, add):
         str: A string which represents the change message.
     """
     change_message = ""
+    data = ""
     if add:
         data = dict_to_table(form.cleaned_data)
         change_message += 'آیتم جدید با مشخصات زیر ایجاد شد:<br>{data}'
