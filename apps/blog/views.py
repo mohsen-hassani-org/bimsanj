@@ -1,6 +1,7 @@
 from typing import Dict, Any
 from django.views.generic import TemplateView
 from apps.insurance.forms import InsuranceReminderForm
+from .models import BigSlider, Feature
 
 # Create your views here.
 
@@ -10,4 +11,8 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['insurance_reminder_form'] = InsuranceReminderForm()
+        context['sliders'] = BigSlider.objects.filter(is_publish=True,
+                                                      page='').order_by('-id')
+        context['features'] = Feature.objects.filter(is_publish=True,
+                                                     page='').order_by('-id')
         return context

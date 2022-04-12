@@ -11,12 +11,17 @@ load_dotenv()
 
 def getenv(key, default=None):
     """Get an environment variable, returning a default value if it doesn't exist."""
-    return os.environ.get(key, default=default)
+    value = os.environ.get(key, default=default)
+    try:
+        value = int(value)
+    except ValueError:
+        pass
+    return value
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = getenv('SECRET_KEY', 'foobar')
-DEBUG = getenv('DEBUG', default=False)
+DEBUG = bool(getenv('DEBUG', default=0))
 ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', default='*').split(',')
 
 DJANGO_APPS = [
@@ -106,6 +111,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+MEDIA_URL = '/media/'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = reverse_lazy('auth:get_phone')
@@ -114,8 +121,11 @@ REST_FRAMEWORK = {
     # "DATE_INPUT_FORMATS": ["%d/%m/%Y"],
 }
 
+DEFAULT_BIG_SLIDER_URL = 'https://via.placeholder.com/1920x1080'
+DEFAULT_THUMBNAIL_URL = 'https://via.placeholder.com/300x300'
+
 try:
-    import Bimsanj.production_settings
+    from Bimsanj import local_settings
 except ImportError:
     pass
 
