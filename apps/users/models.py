@@ -11,7 +11,8 @@ from .managers import CustomUserManager
 def generate_referral():
     code = generate_random_string(use_lower=False, use_symbols=False, length=8)
     if "referral_code" in [field.name for field in User._meta.get_fields()]:
-        while(User.objects.filter(referral_code=code).exists()):
+        users_code = User.objects.values('referral_code')
+        while code in users_code:
             code = generate_random_string(use_lower=False, use_symbols=False, length=8)
     return code
 
