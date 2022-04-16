@@ -10,9 +10,9 @@ from .managers import CustomUserManager
 
 def generate_referral():
     code = generate_random_string(use_lower=False, use_symbols=False, length=8)
-    # users_code = User.objects.values('referral_code')
-    # while code in users_code:
-    #     code = generate_random_string(use_lower=False, use_symbols=False, length=8)
+    users_code = User.objects.values('referral_code')
+    while code in users_code:
+        code = generate_random_string(use_lower=False, use_symbols=False, length=8)
     return code
 
 
@@ -43,7 +43,7 @@ class User(AbstractUser, AbstractModel):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, verbose_name='تصویر پروفایل')
     email = models.EmailField(unique=True, null=True, blank=True, verbose_name='ایمیل')
     notes = models.TextField(verbose_name='یادداشت', null=True, blank=True)
-    referral_code = models.CharField(verbose_name='کد معرف', max_length=10, default=generate_referral, unique=True)
+    referral_code = models.CharField(verbose_name='کد معرف', max_length=10, default=None, unique=True, null=True)
     objects = CustomUserManager()
 
     REQUIRED_FIELDS = ["mobile", ]
@@ -62,6 +62,8 @@ class User(AbstractUser, AbstractModel):
     def save(self, *args, **kwargs):
         if self.email == '':
             self.email = None
+        if not self.referral_code:
+            self.referral_code = generate_referral()
         super().save(*args, **kwargs)
 
     @property
