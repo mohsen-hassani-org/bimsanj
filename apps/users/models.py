@@ -3,8 +3,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from apps.core.models import AbstractModel
+from apps.core.utils import generate_random_string
 from .validators import MobileValidator, NationalCodeValidator
 from .managers import CustomUserManager
+
+
+def generate_referral():
+    code = generate_random_string(use_lower=False, use_symbols=False, length=8)
+    while(User.objects.filter(referral_code=code).exists()):
+        code = generate_random_string(use_lower=False, use_symbols=False, length=8)
+    return code
 
 
 class User(AbstractUser, AbstractModel):
@@ -34,6 +42,7 @@ class User(AbstractUser, AbstractModel):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, verbose_name='تصویر پروفایل')
     email = models.EmailField(unique=True, null=True, blank=True, verbose_name='ایمیل')
     notes = models.TextField(verbose_name='یادداشت', null=True, blank=True)
+    referral_code = models.CharField(verbose_name='کد معرف', max_length=10, default=generate_referral, unique=True)
     objects = CustomUserManager()
 
     REQUIRED_FIELDS = ["mobile", ]
@@ -86,6 +95,22 @@ class User(AbstractUser, AbstractModel):
         self.deactivate_reason = self.DeactivateReasons.UNKNOWN
         self.is_active = True
         self.save()
+
+    @property
+    def total_referred_users(self):
+        return self.referrals.count()
+
+
+class Referral(AbstractModel):
+    referred = models.OneToOneField(User, verbose_name='گاربر معرفی شده',
+                                    on_delete=models.PROTECT, unique=True,
+                                    related_name='referral_by')
+    referrer = models.ForeignKey(User, verbose_name='ارجاع دهنده',
+                                 on_delete=models.PROTECT,
+                                 related_name='referrals')
+
+
+
 
 
 # class AuthSMSRequest(models.Model):

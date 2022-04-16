@@ -1,5 +1,6 @@
 """Utility Functions for project-wide use"""
 
+from multiprocessing.sharedctypes import Value
 import random
 import string
 
@@ -11,6 +12,18 @@ def generate_random_code(length: int = 5) -> str:
     return str(random.randint(start, end))
 
 
-def generate_random_string(length: int = 5) -> str:
+def generate_random_string(length: int = 5, use_upper=True, use_lower=True,
+                           use_digit=True, use_symbols=True) -> str:
     """Generate a random string of letters of a given length"""
-    return ''.join(random.choices(string.ascii_letters, k=length))
+    chars = ""
+    if use_digit:
+        chars += string.digits
+    if use_lower:
+        chars += string.ascii_lowercase
+    if use_upper:
+        chars += string.ascii_uppercase
+    if use_symbols:
+        chars += string.punctuation
+    if not chars:
+        raise ValueError
+    return ''.join(random.choices(chars, k=length))

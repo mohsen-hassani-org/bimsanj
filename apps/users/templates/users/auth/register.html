@@ -1,4 +1,16 @@
-{% extends 'users/auth/auth-base.html' %} {% block content %}
+{% extends 'users/auth/auth-base.html' %}
+
+{% block extra_head %}
+  {{ block.super }}
+    <style>
+      input {
+          text-align: right;
+          direction: rtl;
+      }
+    </style>
+{% endblock %}
+
+{% block content %}
 <form class="bg-white" method="POST">
   {% csrf_token %}
   <h1 class="text-gray-800 font-bold text-2xl mb-1">تکمیل ثبت نام</h1>
@@ -26,6 +38,12 @@
   <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.password_confirm }} </div>
   <div class="">
     {% for error in form.password_confirm.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.referrer_code }} </div>
+  <div class="">
+    {% for error in form.referrer_code.errors %}
       <p class="text-red-600 text-xs">{{ error }}</p>
     {% endfor %}
   </div>

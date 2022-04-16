@@ -125,7 +125,7 @@ DEFAULT_BIG_SLIDER_URL = 'https://via.placeholder.com/1920x1080'
 DEFAULT_THUMBNAIL_URL = 'https://via.placeholder.com/300x300'
 
 try:
-    from Bimsanj import local_settings
+    from Bimsanj.local_settings import *
 except ImportError:
     pass
 

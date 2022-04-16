@@ -5,7 +5,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.urls.base import reverse
 from django.views.generic import View, FormView, CreateView
-from apps.users.auth_forms import LoginPasswordForm, MobileForm, RegisterForm
+from .auth_forms import LoginPasswordForm, MobileForm, RegisterForm
+from .models import Referral
 User = get_user_model()
 
    
@@ -50,6 +51,9 @@ class LoginPasswordView(FormView):
         del self.request.session['mobile']
         return HttpResponseRedirect(reverse('users:dashboard'))
 
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
         
 class RegisterView(FormView):
     template_name = 'users/auth/register.html'
@@ -70,6 +74,8 @@ class RegisterView(FormView):
     def form_valid(self, form):
         mobile = self.request.session.get('mobile')
         user = form.save(mobile=mobile)
+        if form.referrer:
+            Referral.objects.create(referred=user, referrer=form.referrer)
         login(self.request, user)
         del self.request.session['mobile']
         return super().form_valid(form)

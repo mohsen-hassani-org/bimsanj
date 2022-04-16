@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
+{% load static jalali_tags %}
+
+{% block extra_head %}
+  <script src="{% static 'js/gauge.min.js' %}"></script>
+{% endblock extra_head %}
+
 {%block page_content%}
-<div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
+<div class="row" style="display: flex">
+  <div class="col-md-8 col-sm-8 col-xs-12 equal-height-parent">
     <div class="x_panel">
       <div class="x_title">
         <h2>
@@ -32,6 +38,11 @@
             <li class="m-top-xs">
               <i class="fa fa-list-alt"></i>
               {{user.national_code|default:'کد ملی تنظیم نشده'}}
+            </li>
+            <li class="m-top-xs">
+              <i class="fa fa-user"></i>
+              کد معرف: 
+              {{user.referral_code|default:'کد معرف تنظیم نشده است'}}
             </li>
             <li class="m-top-xs">
               <i class="fa fa-envelope"></i>
@@ -197,5 +208,84 @@
       </div>
     </div>
   </div>
+  <div class="col-md-4 col-sm-4 col-xs-12 equal-height-child">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>
+          کد معرف
+        </h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content" style="text-align: center;">
+        <div class="sidebar-widget">
+          <small>کد معرف شما برای دعوت دوستان</small>
+          <h4>{{user.referral_code}}</h4>
+          <small>در صورتی که ده معرفی موفق داشته باشید،‌ ....</small>
+            <canvas width="160" height="100" id="referral_code_gauge"
+                    style="width: 160px; height: 100px; margin: 0px auto;">
+
+            </canvas>
+            <div class="goal-wrapper">
+              <span id="gauge-text" class="gauge-value pull-left">
+                تعداد افراد دعوت شده: {{user.total_referred_users}}</span>
+              <span id="goal-text" class="goal-value pull-right">
+                تعداد مورد نیاز تا سطح بعد: 10</span>
+            </div>
+          </div>
+          <table class="table table-bordered" style="margin-top: 20px;">
+            <thead>
+              <tr>
+                <th style="text-align: center" colspan="3">افراد دعوت شده</th>
+              </tr> 
+            </thead>
+            <tbody>
+              {% for referral in user.referrals.all %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ referral.referred.display_name }}</td>
+                  <td>{{ referral.created_at|to_jalali:"%Y/%m/%d" }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="3">تابحال کسی را دعوت نکرده اید</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
 </div>
 {%endblock page_content%}
+
+{% block extra_scripts %}
+  <script>
+    var options = {
+      lines:12,
+      angle:0, 
+      lineWidth:.4, 
+      pointer: { 
+        length:.75,
+        strokeWidth:.042,
+        color:"#1D212A"
+      },
+      limitMax:"false",
+      colorStart:"#1ABC9C",
+      colorStop:"#1ABC9C",
+      strokeColor:"#F0F3F3",
+      generateGradient:!0,
+      maxValue:80
+    }
+    var target = document.getElementById('referral_code_gauge');
+    var gauge = new Gauge(target).setOptions(options);
+    gauge.maxValue = 10;
+    gauge.setMinValue(0);
+    gauge.animationSpeed = 32;
+    gauge.set({{user.total_referred_users}});
+  </script>
+{% endblock %}

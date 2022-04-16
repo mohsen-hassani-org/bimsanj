@@ -62,7 +62,7 @@ class LoginPasswordForm(forms.ModelForm):
         return ValidationError(
             self.error_messages['invalid_login'],
             code='invalid_login',
-            params={'mobile': self.mobile_field.verbose_name},
+            params={'mobile': 'موبایل'},
         )
 
     def get_user(self):
@@ -70,19 +70,31 @@ class LoginPasswordForm(forms.ModelForm):
 
 
 class RegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
+    referrer_code = forms.CharField(max_length=10, label='کد معرف', required=False)
+    password = forms.CharField(widget=forms.PasswordInput, label='رمز ورود')
+    password_confirm = forms.CharField(widget=forms.PasswordInput,
+                                       label='تکرار رمز ورود')
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'password', 'password_confirm')
+        fields = ('first_name', 'last_name', 'password', 'password_confirm', 
+                  'referrer_code')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['first_name'].widget.attrs['placeholder'] = 'نام'
-        self.fields['last_name'].widget.attrs['placeholder'] = 'نام خانوادگی'
-        self.fields['password'].widget.attrs['placeholder'] = 'رمز عبور'
-        self.fields['password_confirm'].widget.attrs['placeholder'] = 'تکرار رمز عبور'
+        for field in self.fields.values():
+            field.widget.attrs['placeholder'] = field.label
+        self.referrer = None
+
+    def clean_referrer_code(self):
+        referrer_code = self.cleaned_data['referrer_code']
+        if not referrer_code:
+            return ''
+        referrer_code = referrer_code .upper()
+        self.referrer = User.objects.filter(referral_code=referrer_code).first()
+        if not self.referrer:
+            raise forms.ValidationError('هیچ کاربری برای کد معرف وارد شده پیدا نشد')
+        return referrer_code 
 
     def clean_password(self):
         password = self.cleaned_data.get('password')

@@ -435,7 +435,7 @@ pre {
 
 .nav-sm .nav.side-menu li a {
     text-align: center !important;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 10px;
     padding: 10px 5px
 }
@@ -620,13 +620,13 @@ table.tile_info td p {
     display: inline-block;
     font-family: FontAwesome;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 18px
 }
 
 body,
 body.iransans {
-    font-family: IRANSans, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif
+    font-family: Vazir, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif
 }
 
 .main_menu span.fa {
@@ -703,7 +703,7 @@ body {
     color: #73879c;
     background: #34495e;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.471
 }
 
@@ -725,7 +725,7 @@ body .container.body .right_col {
 
 .tooltip,
 body.iransans .tooltip {
-    font-family: IRANSans, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif
+    font-family: Vazir, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif
 }
 
 body.persian_num .tooltip {
@@ -742,7 +742,7 @@ body.yekan .tooltip {
 
 body.iransans span.tag,
 span.tag {
-    font-family: IRANSans, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif
+    font-family: Vazir, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif
 }
 
 .nav_title {
@@ -3688,12 +3688,12 @@ textarea:focus {
 
 .view .tools a {
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 300;
     padding: 0 4px
 }
 
 .view p {
-    font-family: IRANSans, Georgia, serif;
+    font-family: Vazir, Georgia, serif;
     font-size: 12px;
     color: #fff;
     padding: 10px 20px 20px;
@@ -3701,7 +3701,7 @@ textarea:focus {
 }
 
 body.iransans .view p {
-    font-family: IRANSans, Georgia, serif
+    font-family: Vazir, Georgia, serif
 }
 
 body.persian_num .view p {
@@ -4015,14 +4015,14 @@ body.yekan .view p {
 }
 
 .login_content h1 {
-    font: 400 25px IRANSans, Helvetica, Arial, sans-serif;
+    font: 400 25px Vazir, Helvetica, Arial, sans-serif;
     letter-spacing: -.05em;
     line-height: 20px;
     margin: 10px 0 30px
 }
 
 body.iransans .login_content h1 {
-    font: 400 25px IRANSans, Helvetica, Arial, sans-serif
+    font: 400 25px Vazir, Helvetica, Arial, sans-serif
 }
 
 body.persian_num .login_content h1 {
@@ -5253,7 +5253,7 @@ form:after {
 
 body.iransans div#graph_donut svg text,
 div#graph_donut svg text {
-    font-family: IRANSans, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif !important
+    font-family: Vazir, Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif !important
 }
 
 body.persian_num div#graph_donut svg text {
@@ -5399,3 +5399,16 @@ body.lock #lock_screen .unlock {
     position: relative;
     display: table;
 }
+
+.x_panel {
+    height: 100%;
+}
+
+.equal-height-parent {
+    display: flex;
+}
+
+.equal-height-child {
+    flex: 1;
+}
+
