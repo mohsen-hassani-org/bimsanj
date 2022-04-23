@@ -44,6 +44,7 @@ class User(AbstractUser, AbstractModel):
     email = models.EmailField(unique=True, null=True, blank=True, verbose_name='ایمیل')
     notes = models.TextField(verbose_name='یادداشت', null=True, blank=True)
     referral_code = models.CharField(verbose_name='کد معرف', max_length=10, default=None, unique=True, null=True)
+    career = models.ForeignKey('core.Career', on_delete=models.PROTECT, null=True, verbose_name='شغل')
     objects = CustomUserManager()
 
     REQUIRED_FIELDS = ["mobile", ]

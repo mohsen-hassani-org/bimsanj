@@ -3,7 +3,7 @@
 {% block extra_head %}
   {{ block.super }}
     <style>
-      input {
+      input, select {
           text-align: right;
           direction: rtl;
       }
@@ -17,31 +17,43 @@
   <p class="text-sm font-normal text-gray-600 mb-7">
     لطفا اطلاعات خود را به صورت کامل وارد نمایید.
   </p>
-  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.first_name }} </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.first_name }} </div>
   <div class="">
     {% for error in form.first_name.errors %}
       <p class="text-red-600 text-xs">{{ error }}</p>
     {% endfor %}
   </div>
-  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.last_name }} </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.last_name }} </div>
   <div class="">
     {% for error in form.last_name.errors %}
       <p class="text-red-600 text-xs">{{ error }}</p>
     {% endfor %}
   </div>
-  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.password }} </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.password }} </div>
   <div class="">
     {% for error in form.password.errors %}
       <p class="text-red-600 text-xs">{{ error }}</p>
     {% endfor %}
   </div>
-  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.password_confirm }} </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.password_confirm }} </div>
   <div class="">
     {% for error in form.password_confirm.errors %}
       <p class="text-red-600 text-xs">{{ error }}</p>
     {% endfor %}
   </div>
-  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4"> {{ form.referrer_code }} </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.career_group }} </div>
+  <div class="">
+    {% for error in form.career_group.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.career }} </div>
+  <div class="">
+    {% for error in form.career.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.referrer_code }} </div>
   <div class="">
     {% for error in form.referrer_code.errors %}
       <p class="text-red-600 text-xs">{{ error }}</p>
@@ -76,4 +88,29 @@
     بازگشت
     </a>
 </form>
+
 {% endblock content %}
+
+{% block extra_script %}
+  <script>
+    $("#id_career_group").change(function() {
+      var group_id = $(this).val();
+      if(group_id == 0){
+        $("#id_career").html('<option value="" selected="">----------</option>');
+        return false;
+      }
+      $.ajax({
+        url: "{% url 'core:careers' 12345 %}".replace(12345, group_id),
+        type: "GET",
+        data: {},
+        success: function(data) {
+          $("#id_career").html('');
+          for(let career of data.careers){
+            $("#id_career").append(`<option value="${career[0]}">${career[1]}</option>`);
+          }
+        }
+      });
+    });
+  </script>
+{% endblock extra_script %}
+

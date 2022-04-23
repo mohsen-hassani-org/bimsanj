@@ -55,3 +55,26 @@ class UserAlert(AbstractModel):
         verbose_name = 'هشدار کاربر'
         verbose_name_plural = 'هشدار کاربر'
         ordering = ('-created_at',)
+
+class CareerGroup(AbstractModel):
+    name = models.CharField(verbose_name='نام', max_length=150)
+
+    class Meta:
+        verbose_name = 'گروه شغلی'
+        verbose_name_plural = 'گروه شغلی'
+
+    def __str__(self):
+        return self.name
+
+
+class Career(AbstractModel):
+    name = models.CharField(verbose_name='نام', max_length=150)
+    career_group = models.ForeignKey(CareerGroup, verbose_name='گروه',
+                                     on_delete=models.PROTECT, related_name='careers')
+
+    class Meta:
+        verbose_name = 'شغل'
+        verbose_name_plural = 'شغل'
+
+    def __str__(self):
+        return f'{self.name} ({self.career_group.name})' 

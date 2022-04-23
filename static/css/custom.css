@@ -5576,3 +5576,25 @@ body.lock #lock_screen .unlock {
     position: relative;
     display: table;
 }
+
+.clipboard-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    margin: 5px auto;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.clipboard-box:hover {
+    background-color: #fafafa;
+}
+
+.clipboard-box div {
+    padding: 5px 10px;
+    padding-top: 10px;
+}
+
+.clipboard-button {
+    border-right: 1px solid #ddd;
+}

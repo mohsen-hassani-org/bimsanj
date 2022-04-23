@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.core.exceptions import ValidationError
+from apps.core.models import Career, CareerGroup
 User = get_user_model()
 
 
@@ -70,21 +71,42 @@ class LoginPasswordForm(forms.ModelForm):
 
 
 class RegisterForm(forms.ModelForm):
-    referrer_code = forms.CharField(max_length=10, label='کد معرف', required=False)
-    password = forms.CharField(widget=forms.PasswordInput, label='رمز ورود')
+    referrer_code = forms.CharField(max_length=10,
+                                    label='کد معرف',
+                                    required=False)
+    password = forms.CharField(widget=forms.PasswordInput,
+                               label='رمز ورود',
+                               required=True)
     password_confirm = forms.CharField(widget=forms.PasswordInput,
-                                       label='تکرار رمز ورود')
+                                       label='تکرار رمز ورود', required=True)
+    career_group = forms.ModelChoiceField(queryset=CareerGroup.objects.all(),
+                                          empty_label='گروه شغلی',
+                                          required=False,
+                                          label='گروه شغلی')
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'password', 'password_confirm', 
-                  'referrer_code')
+                  'referrer_code', 'career', 'career_group')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['placeholder'] = field.label
         self.referrer = None
+        career_group_choices = CareerGroup.objects.all().values_list('id', 'name')
+        career_group_choices = [(0, 'گروه شغلی')] + list(career_group_choices)
+        if not self.is_bound:
+            self.fields['career'].widget.choices.queryset = Career.objects.none()
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['career'].required = True
+
+    def clean_career(self):
+        career = self.cleaned_data.get('career')
+        if not career:
+            raise forms.ValidationError('شغل الزامی است')
+        return career
 
     def clean_referrer_code(self):
         referrer_code = self.cleaned_data['referrer_code']
@@ -115,6 +137,7 @@ class RegisterForm(forms.ModelForm):
     def save(self, mobile, commit=True):
         user = super().save(commit=False)
         user.mobile = mobile
+        user.username = mobile
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()

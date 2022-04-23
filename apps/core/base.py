@@ -1,5 +1,6 @@
 from typing import Any, Dict, List
 from django.views.generic import ListView, FormView, View
+from django.contrib import messages
 from django.http.response import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
 
@@ -46,6 +47,9 @@ class BaseView(View):
             
 
 class GenericFormView(BaseContextMixin, BaseView, FormView):
+    
+    success_message = ""
+
     def get_page_subtitle(self):
         assert not self.page_subtitle or not self.page_subtitle_field, _(
             'Use either "page_subtitle" or "page_subtitle_field", not both')
@@ -65,6 +69,8 @@ class GenericFormView(BaseContextMixin, BaseView, FormView):
         if queryset:
             return queryset.model._meta.verbose_name
     
+    def get_success_message(self, cleaned_data):
+        return self.success_message
 
     def get_form_classes(self):
         return self.form_classes if hasattr(self, 'form_classes') else [self.form_class]
@@ -92,6 +98,9 @@ class GenericFormView(BaseContextMixin, BaseView, FormView):
     def forms_valid(self, forms):
         for form in forms:
             form.save()
+        success_message = self.get_success_message(form.cleaned_data)
+        if success_message:
+            messages.success(self.request, success_message)
         return HttpResponseRedirect(self.get_success_url())
 
     def forms_invalid(self, form):

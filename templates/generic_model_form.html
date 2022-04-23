@@ -217,3 +217,10 @@
 
 </script>
 {%endblock page_content%}
+
+{% block extra_scripts %}
+    {{block.super}}
+    {% for script in extra_scripts %}
+        <script src="{% static script %}"></script>
+    {% endfor %}
+{% endblock extra_scripts %}

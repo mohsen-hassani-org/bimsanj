@@ -224,7 +224,12 @@
       <div class="x_content" style="text-align: center;">
         <div class="sidebar-widget">
           <small>کد معرف شما برای دعوت دوستان</small>
-          <h4>{{user.referral_code}}</h4>
+          <div class="clipboard-box" onclick="copyToClipboard('{{user.referral_code}}')">
+            <div class="clipboard-body"><h4>{{user.referral_code}}</h4></div>
+            <div class="clipboard-button">
+              <i class="fa fa-copy"></i>
+            </div>
+          </div>
           <small>در صورتی که ده معرفی موفق داشته باشید،‌ ....</small>
             <canvas width="160" height="100" id="referral_code_gauge"
                     style="width: 160px; height: 100px; margin: 0px auto;">
@@ -287,5 +292,10 @@
     gauge.setMinValue(0);
     gauge.animationSpeed = 32;
     gauge.set({{user.total_referred_users}});
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      showInfoMessage("کد معرف شما در حافظه کپی شد");
+    }
   </script>
 {% endblock %}
