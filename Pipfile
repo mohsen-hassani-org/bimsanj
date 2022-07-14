@@ -1,6 +1,5 @@
 [[source]]
 url = "https://pypi.org/simple"
-
 verify_ssl = true
 name = "pypi"
 
@@ -18,6 +17,8 @@ django-rest-framework = "*"
 gunicorn = "*"
 django-heroku = "*"
 pillow = "*"
+django-imagekit = "*"
+django-quill-editor = "*"
 
 [dev-packages]
 
