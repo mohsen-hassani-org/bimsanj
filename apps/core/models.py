@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.db import models
 from django.urls import reverse
 
@@ -5,9 +6,36 @@ from django.urls import reverse
 class AbstractModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
+
+        
+class SingletonModel(models.Model):
+    """An abstract base class that provides a Singleton pattern for models."""
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+        self._set_cache()
+
+    @classmethod
+    def load(cls):
+        if cache.get(cls.__name__) is None:
+            obj, created = cls.objects.get_or_create(pk=1)
+            if not created:
+                obj._set_cache()
+        return cache.get(cls.__name__)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    def _set_cache(self):
+        cache.set(self.__class__.__name__, self)
+
 
 
 class Alert(AbstractModel):
@@ -78,3 +106,38 @@ class Career(AbstractModel):
 
     def __str__(self):
         return f'{self.name} ({self.career_group.name})' 
+
+
+class State(AbstractModel):
+    name = models.CharField(max_length=25, verbose_name='نام')
+
+    class Meta:
+        verbose_name = 'استان'
+        verbose_name_plural = 'استان'
+
+    def __str__(self):
+        return self.name
+
+    
+class City(AbstractModel):
+    name = models.CharField(max_length=25, verbose_name='نام')
+    state = models.ForeignKey(State, on_delete=models.PROTECT, verbose_name='استان', related_name='cities')
+
+    class Meta:
+        verbose_name = 'شهر'
+        verbose_name_plural = 'شهر'
+
+    def __str__(self):
+        return f"{self.name} ({self.state.name})"
+
+
+class District(AbstractModel):
+    name = models.CharField(max_length=25, verbose_name='نام')
+    city = models.ForeignKey(City, on_delete=models.PROTECT, verbose_name='شهر', related_name='districts')
+
+    class Meta:
+        verbose_name = 'ناحیه'
+        verbose_name_plural = 'ناحیه'
+
+    def __str__(self):
+        return f"{self.name} ({self.city.name} - {self.city.state.name})"
