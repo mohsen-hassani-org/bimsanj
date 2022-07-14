@@ -7,6 +7,9 @@
           text-align: right;
           direction: rtl;
       }
+      #id_is_partner {
+        width: 30px;
+      }
     </style>
 {% endblock %}
 
@@ -56,6 +59,15 @@
   <div class="flex items-center border-2 py-2 px-3 rounded-2xl mt-4"> {{ form.referrer_code }} </div>
   <div class="">
     {% for error in form.referrer_code.errors %}
+      <p class="text-red-600 text-xs">{{ error }}</p>
+    {% endfor %}
+  </div>
+  <div class="flex items-center py-2 mt-4">
+    {{ form.is_partner }}
+    <label for="{{ form.is_partner.id_for_label }}">{{ form.is_partner.label }}</label>
+  </div>
+  <div class="">
+    {% for error in form.is_partner.errors %}
       <p class="text-red-600 text-xs">{{ error }}</p>
     {% endfor %}
   </div>

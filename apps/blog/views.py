@@ -1,18 +1,55 @@
 from typing import Dict, Any
-from django.views.generic import TemplateView
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+from django.shortcuts import redirect
+from django.views.generic import TemplateView, ListView, DetailView
 from apps.insurance.forms import InsuranceReminderForm
-from .models import BigSlider, Feature
+from .models import Page, Post, SiteSetting
 
-# Create your views here.
 
-class HomeView(TemplateView):
-    template_name = 'home.html'
+THEME = settings.BLOG_THEME_PREFIX
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context['insurance_reminder_form'] = InsuranceReminderForm()
-        context['sliders'] = BigSlider.objects.filter(is_publish=True,
-                                                      page='').order_by('-id')
-        context['features'] = Feature.objects.filter(is_publish=True,
-                                                     page='').order_by('-id')
-        return context
+class ThemeMixin:
+    def get_template_names(self):
+        if self.template_name is None:
+            raise ImproperlyConfigured(
+                "You must define 'template_name' for blog views"
+            )
+        else:
+            template_name = self.template_name
+            return [
+                f"{THEME}/{template_name}",
+                template_name,
+            ]
+
+
+
+class HomeView(ThemeMixin, TemplateView):
+    def get(self, request, *args, **kwargs):
+        settings = SiteSetting.load()
+        if settings.home_page:
+            return redirect(settings.home_page)
+        return redirect("blog:blog")
+
+        
+class BlogView(ThemeMixin, ListView):
+    template_name = THEME + 'pages/blog.html'
+    model = Post
+    context_object_name = 'blog'
+
+
+class PostView(ThemeMixin, DetailView):
+    template_name = 'pages/post_details.html'
+    queryset = Post.objects.filter(status=Post.PublishStatuses.PUBLISHED)
+    context_object_name = 'post'
+
+
+class PageView(ThemeMixin, DetailView):
+    template_name = 'pages/page_details.html'
+    queryset = Page.objects.filter(status=Page.PublishStatuses.PUBLISHED)
+    context_object_name = 'page'
+
+   
+
+
+

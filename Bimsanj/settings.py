@@ -114,6 +114,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = '/media/'
 
 # THEME_APP = 'apps.perry'
 THEME_APP = None
