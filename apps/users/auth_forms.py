@@ -83,11 +83,12 @@ class RegisterForm(forms.ModelForm):
                                           empty_label='گروه شغلی',
                                           required=False,
                                           label='گروه شغلی')
+    is_partner = forms.BooleanField(label='همکار هستم', required=True)
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'password', 'password_confirm', 
-                  'referrer_code', 'career', 'career_group')
+                  'referrer_code', 'career', 'career_group', 'is_partner', )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -136,6 +137,9 @@ class RegisterForm(forms.ModelForm):
         
     def save(self, mobile, commit=True):
         user = super().save(commit=False)
+        is_partner = self.cleaned_data.get('is_partner')
+        if is_partner:
+            user.convert_to_partner(commit=False)
         user.mobile = mobile
         user.username = mobile
         user.set_password(self.cleaned_data['password'])
