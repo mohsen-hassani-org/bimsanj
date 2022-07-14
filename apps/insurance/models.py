@@ -1,10 +1,6 @@
-from math import remainder
 from django.db import models
-from django.contrib.auth import get_user_model
-
 from apps.core.models import AbstractModel
 from apps.users.validators import MobileValidator
-User = get_user_model()
 
 
 class InsuranceReminder(AbstractModel):
@@ -19,7 +15,7 @@ class InsuranceReminder(AbstractModel):
         CANCELED = 2, 'لغو شده'
 
     title = models.CharField('عنوان یادآوری', max_length=255)
-    user = models.ForeignKey(User, verbose_name='کاربر', null=True, blank=True,
+    user = models.ForeignKey('users.User', verbose_name='کاربر', null=True, blank=True,
                              on_delete=models.CASCADE, related_name='insurance_reminders')
     mobile = models.CharField("شماره تلفن", max_length=11, validators=[MobileValidator()])
     due_date = models.DateField('تاریخ سررسید')
@@ -27,3 +23,13 @@ class InsuranceReminder(AbstractModel):
                                         default=InsuranceReminderType.RUNNING)
     remind_days_before = models.PositiveSmallIntegerField('روز قبل از سررسید', default=1)
 
+
+class Insurance(AbstractModel):
+    name = models.CharField(max_length=50, verbose_name='نام', unique=True)
+    
+    class Meta:
+        verbose_name = 'شرکت بیمه'
+        verbose_name_plural = 'شرکت بیمه'
+
+    def __str__(self):
+        return self.name
