@@ -2,9 +2,10 @@ from django.templatetags.static import static
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-from apps.core.models import AbstractModel
+from apps.core.models import AbstractModel, District
 from apps.core.utils import generate_random_string
-from .validators import MobileValidator, NationalCodeValidator
+from apps.insurance.models import Insurance
+from .validators import MobileValidator, NationalCodeValidator, PhoneValidator
 from .managers import CustomUserManager
 
 
@@ -24,6 +25,12 @@ class User(AbstractUser, AbstractModel):
         BY_STAFF = 2, 'غیر فعال توسط کارمندان'
         VERIFY_MOBILE = 3, 'عدم تایید موبایل'
         VERIFY_EMAIL = 4, 'عدم تایید ایمیل'
+        
+    class Roles(models.TextChoices):
+        ADMIN = 'ADMIN', 'مدیر'
+        STAFF = 'STAFF', 'کارمند'
+        PARTNER = 'PARTNER', 'پیمانکار'
+        CLIENT = 'CLIENT', 'مشتری'
 
     mobile = models.CharField('موبایل', max_length=11, unique=True,
                               help_text='موبایل باید به فرمت 09123456789 وارد شود',
@@ -42,6 +49,7 @@ class User(AbstractUser, AbstractModel):
                                                          verbose_name='غیرفعال به دلیل')
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, verbose_name='تصویر پروفایل')
     email = models.EmailField(unique=True, null=True, blank=True, verbose_name='ایمیل')
+    role = models.CharField(max_length=10, choices=Roles.choices, default=Roles.CLIENT, verbose_name='نقش')
     notes = models.TextField(verbose_name='یادداشت', null=True, blank=True)
     referral_code = models.CharField(verbose_name='کد معرف', max_length=10, default=None, unique=True, null=True)
     career = models.ForeignKey('core.Career', on_delete=models.PROTECT, null=True, verbose_name='شغل')
@@ -68,7 +76,7 @@ class User(AbstractUser, AbstractModel):
         super().save(*args, **kwargs)
 
     @property
-    def display_name(self) -> str:
+    def display_name(self):
         return (
             self.first_name + ' ' + self.last_name
             if self.first_name and self.last_name
@@ -76,22 +84,23 @@ class User(AbstractUser, AbstractModel):
         )
 
     @property
-    def avatar_url(self) -> str:
+    def avatar_url(self):
         if self.avatar:
             return self.avatar.url
         f = static('account/profile.png')
         return f
 
-    def deactivate(self, reason: DeactivateReasons) -> None:
+    def deactivate(self, reason: DeactivateReasons):
         """Deactivate user by reason
 
-        DO NOT explicitly set users is_active field without saving the reason why it is deactivated
+        DO NOT explicitly set users is_active field without saving the reason
+        why it is deactivated
         """
         self.deactivate_reason = reason
         self.is_active = False
         self.save()
 
-    def activate(self) -> None:
+    def activate(self):
         """Activate user
 
         Will change user's deactivate reason to UNKNOWN
@@ -100,10 +109,94 @@ class User(AbstractUser, AbstractModel):
         self.is_active = True
         self.save()
 
+    def convert_to_client(self, commit=True):
+        self.role = self.Roles.CLIENT
+        if commit:
+            self.save()
+
+    def convert_to_partner(self, commit=True):
+        self.role = self.Roles.PARTNER
+        if commit:
+            self.save()
+        
+    def convert_to_staff(self, commit=True):
+        self.role = self.Roles.STAFF
+        if commit:
+            self.save()
+        
+    def convert_to_admin(self, commit=True):
+        self.role = self.Roles.ADMIN
+        if commit:
+            self.save()
+        
+
     @property
     def total_referred_users(self):
         return self.referrals.count()
 
+
+class Admin(User):
+    """Admin User model"""
+    class Meta:
+        proxy = True
+    
+
+class Staff(User):
+    """Staff User model"""
+    class Meta:
+        proxy = True
+      
+
+class Client(User):
+    """Client User model"""
+    class Meta:
+        proxy = True
+
+
+
+
+class PartnerManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(role=User.Roles.PARTNER)
+
+    def create(self, **kwargs):
+        user = super().create(**kwargs)
+        user.role = User.Roles.PARTNER
+        user.save()
+        return user
+
+
+class Partner(AbstractModel):
+    """Partner User model"""
+    class PartnerShipStatues(models.IntegerChoices):
+        ACTIVE = 0, 'فعال'
+        INFORMATION_REQUIRED = 1, 'در انتظار تکمیل اطلاعات'
+        DOCUMENT_UPLOAD_REQUIRED = 2, 'در انتظار بارگذاری مدارک'
+        VERIFICATION_REQUIRED = 3, 'در انتظار احراز هویت'
+        DEACTIVE_UNKNOWN = 99, 'غیرفعال'
+
+
+
+    user = models.OneToOneField(User, related_name='partner', unique=True, verbose_name='کاربر', on_delete=models.PROTECT)
+    partnership_status = models.PositiveSmallIntegerField(verbose_name='وضعیت', choices=PartnerShipStatues.choices,
+                                                          default=PartnerShipStatues.INFORMATION_REQUIRED)
+    manager_first_name = models.CharField(max_length=50, verbose_name='نام مدیر')
+    manager_last_name = models.CharField(max_length=50, verbose_name='نام خانوادگی مدیر')
+    home_address = models.TextField(verbose_name='آدرس محل سکونت')
+    home_phone = models.CharField(max_length=11, validators=[PhoneValidator], verbose_name='شماره تلفن محل سکونت')
+    work_address = models.TextField(verbose_name='آدرس محل کار')
+    work_phone = models.CharField(max_length=11, validators=[PhoneValidator], verbose_name='شماره تلفن محل کار')
+    manager_mobile = models.CharField(max_length=11, validators=[MobileValidator], verbose_name='شماره همراه به نام خود شخص')
+    insurance = models.ForeignKey(Insurance, verbose_name='شرکت بیمه‌ای', related_name='partners', on_delete=models.PROTECT)
+    district = models.ForeignKey(District, verbose_name='ناحیه', on_delete=models.PROTECT, related_name='partners')
+    code = models.CharField(max_length=10, verbose_name='کد نمایندگی')
+    
+
+    objects = PartnerManager()
+    
+    class Meta:
+        verbose_name = 'همکار'
+        verbose_name_plural = 'همکار'
 
 class Referral(AbstractModel):
     referred = models.OneToOneField(User, verbose_name='گاربر معرفی شده',
