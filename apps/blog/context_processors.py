@@ -1,4 +1,4 @@
 from .models import SiteSetting
 
-def settings(request):
+def site_settings(request):
     return {'site_settings': SiteSetting.load()}
