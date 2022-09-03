@@ -2,7 +2,8 @@ from django.templatetags.static import static
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-from apps.core.models import AbstractModel, District
+from apps.core.models import District
+from apps.core.mixins import Timestampable
 from apps.core.utils import generate_random_string
 from apps.insurance.models import Insurance
 from .validators import MobileValidator, NationalCodeValidator, PhoneValidator
@@ -17,7 +18,7 @@ def generate_referral():
     return code
 
 
-class User(AbstractUser, AbstractModel):
+class User(Timestampable, AbstractUser):
     """Custom User model"""
     class DeactivateReasons(models.IntegerChoices):
         UNKNOWN = 0, 'نامشخص'
@@ -128,7 +129,6 @@ class User(AbstractUser, AbstractModel):
         self.role = self.Roles.ADMIN
         if commit:
             self.save()
-        
 
     @property
     def total_referred_users(self):
@@ -153,8 +153,6 @@ class Client(User):
         proxy = True
 
 
-
-
 class PartnerManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(role=User.Roles.PARTNER)
@@ -166,7 +164,7 @@ class PartnerManager(models.Manager):
         return user
 
 
-class Partner(AbstractModel):
+class Partner(Timestampable, models.Model):
     """Partner User model"""
     class PartnerShipStatues(models.IntegerChoices):
         ACTIVE = 0, 'فعال'
@@ -174,8 +172,6 @@ class Partner(AbstractModel):
         DOCUMENT_UPLOAD_REQUIRED = 2, 'در انتظار بارگذاری مدارک'
         VERIFICATION_REQUIRED = 3, 'در انتظار احراز هویت'
         DEACTIVE_UNKNOWN = 99, 'غیرفعال'
-
-
 
     user = models.OneToOneField(User, related_name='partner', unique=True, verbose_name='کاربر', on_delete=models.PROTECT)
     partnership_status = models.PositiveSmallIntegerField(verbose_name='وضعیت', choices=PartnerShipStatues.choices,
@@ -190,7 +186,6 @@ class Partner(AbstractModel):
     insurance = models.ForeignKey(Insurance, verbose_name='شرکت بیمه‌ای', related_name='partners', on_delete=models.PROTECT)
     district = models.ForeignKey(District, verbose_name='ناحیه', on_delete=models.PROTECT, related_name='partners')
     code = models.CharField(max_length=10, verbose_name='کد نمایندگی')
-    
 
     objects = PartnerManager()
     
@@ -198,7 +193,8 @@ class Partner(AbstractModel):
         verbose_name = 'همکار'
         verbose_name_plural = 'همکار'
 
-class Referral(AbstractModel):
+
+class Referral(Timestampable, models.Model):
     referred = models.OneToOneField(User, verbose_name='گاربر معرفی شده',
                                     on_delete=models.PROTECT, unique=True,
                                     related_name='referral_by')
@@ -207,35 +203,3 @@ class Referral(AbstractModel):
                                  related_name='referrals')
 
 
-
-
-
-# class AuthSMSRequest(models.Model):
-#     class Meta:
-#         verbose_name = 'درخواست احراز هویت پیامکی'
-#         verbose_name_plural = 'درخواست احراز هویت پیامکی'
-#         ordering = ('-id', )
-
-#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-#                              verbose_name='کاربر', null=True, blank=True)
-#     mobile = models.CharField('موبایل', max_length=11, help_text=('نمونه: 09123456789'),
-#                               validators=[MobileValidator()])
-#     sms_code = models.CharField('کد پیامکی', max_length=5, null=True, blank=True)
-#     created_at = models.DateTimeField('تاریخ ثبت', auto_now_add=True)
-#     updated_at = models.DateTimeField('تاریخ بروزرسانی', auto_now=True)
-
-#     def __str__(self):
-#         return self.mobile
-
-#     def login_user(self, request):
-#         user = self.user
-#         if not user:
-#             return
-#         login(request, user)
-
-#     def generate_sms_code(self):
-#         self.sms_code = generate_sms_code()
-#         self.save()
-
-#     def send_code(self):
-#         print(f'>>>>>>>>>>>>>{self.sms_code}<<<<<<<<<<<<<<<')

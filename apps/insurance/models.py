@@ -1,9 +1,9 @@
 from django.db import models
-from apps.core.models import AbstractModel
+from apps.core.mixins import Timestampable
 from apps.users.validators import MobileValidator
 
 
-class InsuranceReminder(AbstractModel):
+class InsuranceReminder(Timestampable, models.Model):
     class Meta:
         verbose_name = 'یادآوری بیمه'
         verbose_name_plural = 'یادآوری بیمه'
@@ -24,7 +24,7 @@ class InsuranceReminder(AbstractModel):
     remind_days_before = models.PositiveSmallIntegerField('روز قبل از سررسید', default=1)
 
 
-class Insurance(AbstractModel):
+class Insurance(Timestampable, models.Model):
     name = models.CharField(max_length=50, verbose_name='نام', unique=True)
     
     class Meta:

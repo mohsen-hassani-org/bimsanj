@@ -2,7 +2,7 @@ from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from django_quill.fields import QuillField
-from apps.core.models import AbstractModel, SingletonModel
+from apps.core.mixins import Authorable, Timestampable, Publishable, LogicalDeletable, Permalinkable, SingletonMixin
 from apps.users.models import User
 
 
@@ -17,17 +17,14 @@ class PageManager(models.Manager):
 
 
 
-class Tag(AbstractModel):
+class Tag(Timestampable, Permalinkable, models.Model):
     title = models.CharField(max_length=255, verbose_name='عنوان')
-    slug = models.SlugField(max_length=255, verbose_name='اسلاگ', unique=True)
     description = models.TextField(verbose_name='توضیحات', blank=True)
 
 
-class Category(AbstractModel):
+class Category(Timestampable, Permalinkable, Publishable, models.Model):
     title = models.CharField(max_length=255, verbose_name='عنوان')
-    slug = models.SlugField(max_length=255, verbose_name='اسلاگ', unique=True)
     description = models.TextField(verbose_name='توضیحات', blank=True)
-    is_publish = models.BooleanField(verbose_name='منتشر شود؟', default=False)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name='دسته بندی پدر')
 
     class Meta:
@@ -42,13 +39,12 @@ class Category(AbstractModel):
         return f'/blog/category/{self.slug}'
 
 
-class Post(AbstractModel):
+class Post(Timestampable, Permalinkable, Authorable, models.Model):
     class PublishStatuses(models.TextChoices):
         PUBLISHED = 'published', 'منتشر شده'
         DRAFTED = 'drafted', 'پیش نویس'
 
     title = models.CharField(max_length=255, verbose_name='عنوان')
-    slug = models.SlugField(max_length=255, verbose_name='اسلاگ', unique=True)
     body = QuillField(verbose_name='متن', blank=True)
     summary = models.CharField(max_length=2048, verbose_name='خلاصه', blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته بندی', related_name='posts', null=True, blank=True)
@@ -57,7 +53,6 @@ class Post(AbstractModel):
     image_thumbnail = ImageSpecField(source='image', processors=[ResizeToFill(300, 180)],
                                     format='JPEG', options={'quality': 60})
     status = models.CharField(max_length=10, choices=PublishStatuses.choices, default=PublishStatuses.DRAFTED)
-    created_by = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='ایجاد کننده')
 
     objects = BlogManager()
 
@@ -70,14 +65,13 @@ class Post(AbstractModel):
         return self.title
 
 
-class Page(AbstractModel):
+class Page(Timestampable, Permalinkable, Authorable, models.Model):
     
     class PublishStatuses(models.TextChoices):
         PUBLISHED = 'published', 'منتشر شده'
         DRAFTED = 'drafted', 'پیش نویس'
 
     title = models.CharField(max_length=255, verbose_name='عنوان')
-    slug = models.SlugField(max_length=255, verbose_name='اسلاگ', unique=True)
     body = QuillField(verbose_name='متن', blank=True)
     summary = models.CharField(max_length=2048, verbose_name='خلاصه', blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته بندی', related_name='pages', null=True, blank=True)
@@ -86,7 +80,6 @@ class Page(AbstractModel):
     image_thumbnail = ImageSpecField(source='image', processors=[ResizeToFill(300, 180)],
                                     format='JPEG', options={'quality': 60})
     status = models.CharField(max_length=10, choices=PublishStatuses.choices, default=PublishStatuses.DRAFTED)
-    created_by = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='ایجاد کننده')
     objects = PageManager()
  
     class Meta:
@@ -98,7 +91,7 @@ class Page(AbstractModel):
         return self.title
 
         
-class SiteSetting(SingletonModel, AbstractModel):
+class SiteSetting(SingletonMixin, Timestampable, models.Model):
     site_title = models.CharField(max_length=255, verbose_name='عنوان')
     site_subtitle = models.CharField(max_length=255, verbose_name='زیر عنوان')
     description = models.TextField(verbose_name='توضیحات', blank=True)
@@ -118,6 +111,9 @@ class SiteSetting(SingletonModel, AbstractModel):
     footer_phone = models.CharField(max_length=255, verbose_name='تلفن', blank=True)
     footer_email = models.CharField(max_length=255, verbose_name='ایمیل', blank=True)
     home_page = models.ForeignKey(Page, on_delete=models.SET_NULL, verbose_name='صفحه خانه', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'تنظیمات سایت'
 
    
 

@@ -22,7 +22,7 @@ class PageAdmin(PostAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'is_publish', 'created_at', 'updated_at')
+    list_display = ('title', 'slug', 'publish_date', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at', 'parent', )
     search_fields = ('title', 'slug', 'description', )
     readonly_fields = ('created_at', 'updated_at',)
