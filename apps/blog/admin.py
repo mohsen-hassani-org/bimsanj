@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Page, Category, Tag
+from .models import Post, Page, Category, SiteSetting, Tag, ThemeContent
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -36,3 +36,31 @@ class TagAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at',)
 
 
+@admin.register(SiteSetting)
+class SiteSettingAdmin(admin.ModelAdmin):
+    list_display = ('site_title', 'site_subtitle', 'created_at', 'updated_at')
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
+@admin.register(ThemeContent)
+class ThemeContentAdmin(admin.ModelAdmin):
+    list_display = ('key', 'value')
+    fields = ('theme', 'key', 'value')
+
+    def get_queryset(self, request):
+        qs = self.model._default_manager.theme_contents()
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs
+
+    def has_add_permission(self, request) -> bool:
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+    

@@ -47,6 +47,7 @@ PROJECT_APPS = [
     'apps.blog',
     'apps.sms',
     'apps.insurance',
+    'apps.my_theme',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
@@ -72,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.blog.context_processors.site_settings',
+                'apps.blog.context_processors.theme_content',
             ],
         },
     },
@@ -122,10 +124,8 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
 
-# THEME_APP = 'apps.perry'
-THEME_APP = None
-if THEME_APP:
-    INSTALLED_APPS.append(THEME_APP)
+BLOG_THEME = 'blog'
+# BLOG_THEME = 'my_theme'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
@@ -137,7 +137,6 @@ REST_FRAMEWORK = {
 
 DEFAULT_BIG_SLIDER_URL = 'https://via.placeholder.com/1920x1080'
 DEFAULT_THUMBNAIL_URL = 'https://via.placeholder.com/300x300'
-BLOG_THEME_PREFIX = 'perry'
 
 try:
     from Bimsanj.local_settings import *

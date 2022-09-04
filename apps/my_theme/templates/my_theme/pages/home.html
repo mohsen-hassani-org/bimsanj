@@ -1,0 +1,133 @@
+{% extends 'my_theme/base/base.html' %}
+{% load jalali_tags static crispy_forms_tags %}
+
+{% block site_title %}{{block.super}}{% endblock site_title%}
+{% block extra_head %}{% endblock extra_head %}
+
+{% block main_content %}
+    {% if sliders %}
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        {% for slider in sliders %}
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{forloop.counter0}}"
+            {% if forloop.counter0 == 0 %}
+            class="active"
+            {% endif %}
+            aria-current="true" aria-label="Slide 1"></button>
+        {% endfor %}
+        {% comment %} <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button> {% endcomment %}
+    </div>
+    <div class="carousel-inner">
+
+        {% for slider in sliders %}
+        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                preserveAspectRatio="xMidYMid slice" focusable="false"
+                style="background-image:url('{{slider.image.url}}'); background-size: cover; background-repeat: no-repeat;background-position: top;">
+                </svg>
+            <div class="container">
+            <div class="carousel-caption {% if slider.text_position == "right" %}text-end{% elif slider.text_position == "left" %}text-start{% endif %}">
+                <h1>{{slider.title}}</h1>
+                <p>{{slider.body}}</p>
+                {% if slider.button_link and slider.button_text %}
+                <p><a class="btn btn-lg btn-primary" href="{{slider.button_link}}">{{slider.button_text}}</a></p>
+                {% endif %}
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">قبلی</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">بعدی</span>
+    </button>
+    </div>
+    {% endif %}
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    {% if features %}
+    <div class="container marketing">
+
+    <div class="row title">
+        <h2>بیمه‌های قابل ارائه</h2>
+        <p class="lead">بیمه مورد نظر خود را انتخاب کنید</p>
+    </div>
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+
+        {% for feature in features %}
+        <div class="col-lg-3">
+            <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: 140x140"
+                style="background-image:url('{{feature.get_thumbnail_url_or_default}}');
+                        background-size: cover; background-repeat: no-repeat;
+                        background-position: center;">
+                role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
+            </svg>
+            <h2>{{feature.title}}</h2>
+            <p>{{feature.subtitle}}</p>
+            {% if feature.button_link and feature.button_text %}
+            <p><a class="btn btn-secondary" href="{{feature.button_link}}">{{feature.button_text}}</a></p>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+    </div>
+    {% endif %}
+
+
+    <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+        <h2>یادآوری بیمه</h2>
+        <p class="lead">می‌توانید بیمه خود را وارد کنید تا در زمان مقرر به شما یادآوری کنیم</p>
+        </div>
+        <div class="col-md-5">
+        <form method="post" action="{% url 'insurance:reminders-list' %}" id="reminder_form">
+            {% csrf_token %}
+            {{ insurance_reminder_form|crispy }}
+            <div class="d-flex flex-row">
+            <input type="submit" value="به من یادآوری کن!" class="btn btn-success" id="btn_create_reminder">
+            <div class="loader ms-5 d-none" id="reminder_loader"></div>
+            </div>
+            <div class="alert d-none mt-2 alert-dismissible" id="reminder_form_message" role="alert">
+            <span id="reminder_form_message_content"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </form>
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading">یک عنوان دیگر<a href="#" class="text-muted">با لینک مشابه</a></h2>
+        <p class="lead">{% lorem 1 b random %}</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!-- /END THE FEATURETTES -->
+
+    </div><!-- /.container -->
+
+{% endblock main_content %}

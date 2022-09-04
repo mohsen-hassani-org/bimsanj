@@ -1,0 +1,15 @@
+<h2>درباره من</h2>
+  <h5>Photo of me:</h5>
+  <div class="fakeimg">Fake Image</div>
+  <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+
+  <h3 class="mt-4">پربازدیدترین مطالب</h3>
+  <ul class="nav nav-pills flex-column">
+    {% for post in posts %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{post.get_absolute_url}}">{{post.title}}</a>
+      </li>
+    {% endfor %}
+    
+  </ul>
+<hr class="d-sm-none">

@@ -1,0 +1,9 @@
+{% extends 'my_theme/base/base.html' %}
+
+{% block site_title %}{{block.super}}{% endblock site_title %}
+{% block extra_head %}{% endblock extra_head %}
+
+{% block main_content %}
+    {{post.body.html|safe}}
+{% endblock main_content%}
+

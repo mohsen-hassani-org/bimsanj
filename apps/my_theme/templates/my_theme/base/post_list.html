@@ -1,0 +1,13 @@
+{% extends 'my_theme/base/base.html' %}
+
+{% block site_title %}{{block.super}}{% endblock site_title %}
+{% block extra_head %}{% endblock extra_head %}
+
+{% block main_content %}
+    <ul>
+        {% for post in posts %}
+            <li><a href="{{post.get_absolute_url}}">{{post.title}}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock main_content%}
+

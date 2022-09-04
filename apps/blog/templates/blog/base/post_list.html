@@ -1,0 +1,14 @@
+{% extends 'blog/base/base.html' %}
+
+{% block site_title %}{{block.super}}{% endblock site_title %}
+{% block extra_head %}{% endblock extra_head %}
+
+{% block main_content %}
+        {% for post in posts %}
+            <h2><a href="{{post.get_absolute_url}}">{{post.title}}</a></h5>
+            <h5>{{post.created_at}}</h5>
+            <div class="fakeimg" style="background-image: url('{{post.image_thumbnail.url}}'); background-size: cover"></div>
+            <p>{{post.summary}}</p>
+        {% endfor %}
+{% endblock main_content%}
+
