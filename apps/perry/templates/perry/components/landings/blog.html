@@ -1,0 +1,43 @@
+{% load static jalali_tags %}
+
+<section class="blog-area pt-100 pb-70">
+    <div class="container">
+        <div class="section-title">
+            <span>وبلاگ ما</span>
+            <h2>آخرین اخبار و وبلاگ های ما</h2>
+        </div>
+        <div class="row">
+            {% for post in blog %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-blog-post">
+                        <div class="blog-img">
+                            <a href="{% url 'blog:post' post.slug %}">
+                                <img src="{{post.image_thumbnail.url}}" alt="{{post.title}}">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <ul>
+                                <li>
+                                    <i class="flaticon-user"></i>
+                                    <a href="">{{post.created_by}}</a>
+                                </li>
+                                <li>
+                                    <i class="flaticon-calendar"></i>
+                                    {{post.created_at|to_jalali:'%Y/%m/%d'}}
+                                </li>
+                            </ul>
+                            <h3>
+                                <a href="{% url 'blog:post' post.slug %}">
+                                    {{post.title}}
+                                </a>
+                            </h3>
+                            <a href="{% url 'blog:post' post.slug %}" class="read-more">
+                                ادامه خواندن
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

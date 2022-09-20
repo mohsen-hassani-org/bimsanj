@@ -1,0 +1,26 @@
+<div class="page-title-area bg-2"
+    {% if image %}
+        style="background-image: url('{{ image }}');"
+    {% else %}
+        style="background-image: url({{ 'assets/images/bg/bg-1.jpg' }});"
+    {% endif %}>
+    <div class="container">
+        <div class="page-title-content">
+            <h2>{{title}}</h2>
+            {% if parent_url %}
+                <ul>
+                    <li>
+                        <a href="{% url 'blog:home' %}">
+                            خانه
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="{% url parent_url %}">
+                            {{parent_name}}
+                        </a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>

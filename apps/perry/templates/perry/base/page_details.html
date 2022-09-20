@@ -1,0 +1,10 @@
+{% extends 'perry/base/base.html' %}
+
+{% block body %}
+
+    {% include 'perry/components/landings/header.html' %}
+    {% include 'perry/components/post_no_sidebar.html' with post=post %}
+    {% include 'perry/components/landings/footer.html' %}
+    {% include 'perry/components/landings/copyright.html' %}
+
+{% endblock body %}

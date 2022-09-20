@@ -48,6 +48,7 @@ PROJECT_APPS = [
     'apps.sms',
     'apps.insurance',
     'apps.my_theme',
+    'apps.perry',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
@@ -116,7 +117,6 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static_root'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -124,8 +124,9 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
 
-BLOG_THEME = 'blog'
+# BLOG_THEME = 'blog'
 # BLOG_THEME = 'my_theme'
+BLOG_THEME = 'perry'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'

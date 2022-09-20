@@ -1,0 +1,11 @@
+{% extends 'perry/base/base.html' %}
+
+{% block body %}
+
+    {% include 'perry/components/landings/header.html' %}
+    {% include 'perry/components/page_title.html' with title=post.title parent_name='وبلاگ' parent_url='blog:posts' image=post.image.url %}
+    {% include 'perry/components/post_no_sidebar.html' with post=post %}
+    {% include 'perry/components/landings/footer.html' %}
+    {% include 'perry/components/landings/copyright.html' %}
+
+{% endblock body %}

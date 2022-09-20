@@ -1,0 +1,284 @@
+{% load static %}
+
+<header class="header-area">
+
+    <div class="top-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-lg-8 col-md-7">
+                    <ul class="header-left-content">
+                        <li>
+                            <i class="bx bx-envelope"></i>
+                            <a href="mailto: hello@bimsanj.com"> hello@bimsanj.com</a>
+                        </li>
+                        <li>
+                            <i class="bx bx-location-plus"></i>
+                            ایران ، استان کرمان ، میدان آزادی ، دفتر بیمسنج
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="header-right-content">
+                        {% comment %} <ul class="language-area">
+                            <li class="language-item-top">
+                                <a href="#" class="language-bar">
+                                    <span>انتخاب زبان</span>
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+                                <ul class="language-item-bottom">
+                                    <li class="language-item">
+                                        <a href="#" class="language-link">
+                                            <img src="{% static 'perry/img/language/iran.png' %}" alt="Image">
+                                            فارسی
+                                        </a>
+                                    </li>
+                                    <li class="language-item">
+                                        <a href="#" class="language-link">
+                                            <img src="{% static 'perry/img/language/arab.png' %}" alt="Image">
+                                            العربيّة
+                                        </a>
+                                    </li>
+                                    <li class="language-item">
+                                        <a href="#" class="language-link">
+                                            <img src="{% static 'perry/img/language/germany.png' %}" alt="Image">
+                                            Deutsch
+                                        </a>
+                                    </li>
+                                    <li class="language-item">
+                                        <a href="#" class="language-link">
+                                            <img src="{% static 'perry/img/language/portugal.png' %}" alt="Image">
+                                            󠁥󠁮󠁧󠁿Português
+                                        </a>
+                                    </li>
+                                    <li class="language-item">
+                                        <a href="#" class="language-link">
+                                            <img src="{% static 'perry/img/language/china.png' %}" alt="Image">
+                                            简体中文
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul> {% endcomment %}
+                        <div class="log-in">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                ورود کاربران
+                            </a>
+                        </div>
+                        <div class="register">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop-2">
+                                ثبت نام
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="navbar-area">
+        <div class="mobile-nav">
+            <div class="container-fluid">
+                <div class="mobile-menu">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="{% static 'perry/img/logo.png' %}" alt="logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="desktop-nav">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="{% static 'perry/img/logo.png' %}" alt="logo">
+                    </a>
+                    <div class="collapse navbar-collapse mean-menu">
+                        <ul class="navbar-nav m-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    خانه
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    صفحات
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="about-us.html" class="nav-link">درباره ما</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="testimonials.html" class="nav-link">بازخورد مشتریان</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            خدمات
+                                            <i class="bx bx-chevron-left"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item">
+                                                <a href="services.html" class="nav-link">خدمات</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="services-details.html" class="nav-link">جزئیات خدمات</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="team.html" class="nav-link">تیم ما</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            کاربران
+                                            <i class="bx bx-chevron-left"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item">
+                                                <a href="my-account.html" class="nav-link">حساب کاربری</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="log-in.html" class="nav-link">ورود کاربران</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="register.html" class="nav-link">ثبت نام</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="recover-password.html" class="nav-link">بازیابی گذرواژه</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pricing.html" class="nav-link">قیمت گذاری</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="claims.html" class="nav-link">ادعاها</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="faq.html" class="nav-link">سوالات متداول</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="privacy-policy.html" class="nav-link">حریم خصوصی</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="terms-conditions.html" class="nav-link">قوانین و ضوابط</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="coming-soon.html" class="nav-link">نسخه به زودی</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="404.html" class="nav-link">خطای 404</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    بیمه
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="business-insurance.html" class="nav-link">بیمه تجاری</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="health-insurance.html" class="nav-link">بیمه سلامت</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="life-insurance.html" class="nav-link">بیمه عمر</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="car-insurance.html" class="nav-link">بیمه ماشین</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    وبلاگ
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="blog-column-one.html" class="nav-link">وبلاگ ستونی 1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="blog-column-two.html" class="nav-link">وبلاگ ستونی 2</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="blog-column-three.html" class="nav-link">وبلاگ ستونی 3</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="blog-left-sidebar.html" class="nav-link">وبلاگ سایدبار</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="blog-details.html" class="nav-link">جزئیات وبلاگ</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="contact-us.html" class="nav-link">تماس با ما</a>
+                            </li>
+                        </ul>
+                        <div class="others-option">
+                            <form class="search-box">
+                                <input type="text" name="Search" placeholder="جستجو برای..." class="form-control">
+                                <button type="submit" class="search-btn">
+                                    <i class="bx bx-search"></i>
+                                </button>
+                                <button type="submit" class="close-btn">
+                                    <i class="bx bx-x"></i>
+                                </button>
+                            </form>
+                            <div class="call-us">
+                                <i class="bx bx-phone-call"></i>
+                                <a href="tel:+1-(514)-312-5678">+1 (514) 312-5678</a>
+                            </div>
+                            <div class="get-quote">
+                                <a href="pricing.html" class="default-btn">
+                                    استعلام قیمت
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="others-option-for-responsive">
+            <div class="container">
+                <div class="dot-menu">
+                    <div class="inner">
+                        <div class="circle circle-one"></div>
+                        <div class="circle circle-two"></div>
+                        <div class="circle circle-three"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="option-inner">
+                        <div class="others-option justify-content-center d-flex align-items-center">
+                            <form class="search-box">
+                                <input type="text" name="Search" placeholder="جستجو برای ..." class="form-control">
+                                <button type="submit" class="search-btn">
+                                    <i class="bx bx-search"></i>
+                                </button>
+                                <button type="submit" class="close-btn">
+                                    <i class="bx bx-x"></i>
+                                </button>
+                            </form>
+                            <div class="call-us">
+                                <i class="bx bx-phone-call"></i>
+                                <a href="tel:+1-(514)-312-5678">+1 (514) 312-5678</a>
+                            </div>
+                            <div class="get-quote">
+                                <a href="pricing.html" class="default-btn">
+                                    استعلام قیمت
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>

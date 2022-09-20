@@ -1,0 +1,12 @@
+{% extends 'perry/base/base.html' %}
+
+{% block body %}
+
+    {% include 'perry/components/landings/header.html' %}
+    {% include 'perry/components/page_title.html' with title="وبلاگ" %}
+    {% include 'perry/components/landings/blog.html' with blog=posts %}
+    {% include 'perry/components/landings/footer.html' %}
+    {% include 'perry/components/landings/copyright.html' %}
+
+{% endblock body %}
+
