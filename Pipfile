@@ -19,6 +19,7 @@ django-heroku = "*"
 pillow = "*"
 django-imagekit = "*"
 django-quill-editor = "*"
+tzdata = "*"
 
 [dev-packages]
 
