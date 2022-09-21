@@ -75,7 +75,9 @@ class Activable(models.Model):
 
 
 class Permalinkable(models.Model):
-    slug = models.SlugField(unique=True, max_length=255)
+    slug = models.SlugField(
+        verbose_name="شناسه", unique=True, max_length=255, allow_unicode=True
+    )
 
     class Meta:
         abstract = True
