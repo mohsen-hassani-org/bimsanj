@@ -20,8 +20,11 @@ pillow = "*"
 django-imagekit = "*"
 django-quill-editor = "*"
 tzdata = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
+flake8 = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.9"
