@@ -145,3 +145,6 @@ except ImportError:
     pass
 
 django_heroku.settings(locals())
+
+BROKER_URL = getenv('BROKER_URL')
+RESULT_BACKEND = getenv('RESULT_BACKEND')
