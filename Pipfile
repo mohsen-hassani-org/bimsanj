@@ -20,6 +20,7 @@ pillow = "*"
 django-imagekit = "*"
 django-quill-editor = "*"
 tzdata = "*"
+celery = "*"
 
 [dev-packages]
 
