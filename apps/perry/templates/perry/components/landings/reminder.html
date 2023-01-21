@@ -1,0 +1,22 @@
+{% load jalali_tags static crispy_forms_tags %}
+
+<div class="row featurette">
+    <div class="col-md-7">
+    <h2>یادآوری بیمه</h2>
+    <p class="lead">می‌توانید بیمه خود را وارد کنید تا در زمان مقرر به شما یادآوری کنیم</p>
+    </div>
+    <div class="col-md-5">
+    <form method="post" action="{% url 'insurance:reminders-list' %}" id="reminder_form">
+        {% csrf_token %}
+        {{ insurance_reminder_form|crispy }}
+        <div class="d-flex flex-row">
+        <input type="submit" value="به من یادآوری کن!" class="btn btn-success" id="btn_create_reminder">
+        <div class="loader ms-5 d-none" id="reminder_loader"></div>
+        </div>
+        <div class="alert d-none mt-2 alert-dismissible" id="reminder_form_message" role="alert">
+        <span id="reminder_form_message_content"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </form>
+    </div>
+</div>
