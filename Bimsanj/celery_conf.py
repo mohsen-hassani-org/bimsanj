@@ -1,11 +1,23 @@
-from celery import Celery
+from celery import Celery, signals
 import os
 from .settings import BROKER_URL, RESULT_BACKEND
+from kombu import Queue
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Bimsanj.settings')
 
 celery_app = Celery('Bimsanj')
+
+celery_app.conf.task_queues = (
+    Queue('default', routing_key='default'),
+    Queue('reminder', routing_key='reminder'),
+)
+
+celery_app.conf.task_default_queue = 'default'
+
+celery_app.conf.task_routes = {
+    'send_reminder_message_task' : {'queue' : 'reminder'},
+}
 
 # Load task modules from all registered Django apps.
 celery_app.autodiscover_tasks()
