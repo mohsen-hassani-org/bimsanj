@@ -1,0 +1,294 @@
+#root {
+    direction: rtl;
+    font-family: Yekan,tahoma,Ubunt;
+    line-height: inherit;
+    margin: 0;
+    display: block;
+}
+
+@media (min-width: 768px)
+.md\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
+
+*, :after, :before {
+    --tw-border-spacing-x: 0;
+    --tw-border-spacing-y: 0;
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    --tw-pan-x: ;
+    --tw-pan-y: ;
+    --tw-pinch-zoom: ;
+    --tw-scroll-snap-strictness: proximity;
+    --tw-ordinal: ;
+    --tw-slashed-zero: ;
+    --tw-numeric-figure: ;
+    --tw-numeric-spacing: ;
+    --tw-numeric-fraction: ;
+    --tw-ring-inset: ;
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgba(59,130,246,.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-colored: 0 0 #0000;
+    --tw-blur: ;
+    --tw-brightness: ;
+    --tw-contrast: ;
+    --tw-grayscale: ;
+    --tw-hue-rotate: ;
+    --tw-invert: ;
+    --tw-saturate: ;
+    --tw-sepia: ;
+    --tw-drop-shadow: ;
+    --tw-backdrop-blur: ;
+    --tw-backdrop-brightness: ;
+    --tw-backdrop-contrast: ;
+    --tw-backdrop-grayscale: ;
+    --tw-backdrop-hue-rotate: ;
+    --tw-backdrop-invert: ;
+    --tw-backdrop-opacity: ;
+    --tw-backdrop-saturate: ;
+    --tw-backdrop-sepia: ;
+}
+
+.bg-\[\#7e6aff\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(126 106 255/var(--tw-bg-opacity));
+}
+.min-h-screen {
+    min-height: 100vh;
+}
+
+@media (min-width: 768px)
+.md\:grid-cols-2 {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+}
+.pt-20 {
+    padding-top: 5rem;
+}
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.grid-cols-1 {
+    grid-template-columns: repeat(1,minmax(0,1fr));
+}
+.max-w-7xl {
+    max-width: 80rem;
+}
+.grid {
+    display: grid;
+}
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+*, :after, :before {
+    border: 0 solid #e5e7eb;
+    box-sizing: border-box;
+}
+user agent stylesheet
+div {
+    display: block;
+}
+
+
+.text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity));
+}
+.font-bold {
+    font-weight: 700;
+}
+.text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
+    margin: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+}
+.text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity));
+}
+.font-bold {
+    font-weight: 700;
+}
+.mt-2 {
+    margin-top: 0.5rem;
+}
+blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
+    margin: 0;
+}
+
+form {
+    display: block;
+    margin-top: 0em;
+}
+.my-8 {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+}
+.outline-none {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+.pr-2 {
+    padding-right: 0.5rem;
+}
+.py-3 {
+    padding-bottom: 0.75rem;
+    padding-top: 0.75rem;
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+.w-full {
+    width: 100%;
+}
+.block {
+    display: block;
+}
+.my-2 {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+}
+.ease-in-out {
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+}
+.duration-200 {
+    transition-duration: .2s;
+}
+.text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity));
+}
+.font-bold {
+    font-weight: 700;
+}
+.py-2 {
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+.bg-\[\#058f1f\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(5 143 31/var(--tw-bg-opacity));
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+.w-full {
+    width: 100%;
+}
+[role=button], button {
+    cursor: pointer;
+}
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+    background-color: initial;
+    background-image: none;
+}
+button, select {
+    text-transform: none;
+}
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+}
+.justify-center {
+    justify-content: center;
+}
+.items-center {
+    align-items: center;
+}
+.flex {
+    display: flex;
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+.w-2\/3 {
+    width: 66.666667%;
+}
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+#mttContainer {
+    left: 0 !important;
+    top: 0 !important;
+    position: fixed !important;
+    z-index: 100000200 !important;
+    width: 1000px !important;
+    margin-left: -500px !important;
+    background-color: #00000000 !important;
+    pointer-events: none !important;
+}
+injected stylesheet
+.bootstrapiso {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgb(33, 37, 41);
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+    margin: 0px;
+}
+injected stylesheet
+.bootstrapiso {
+    font-family: sans-serif;
+    line-height: 1.15;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+injected stylesheet
+.bootstrapiso {
+}
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+.w-2\/3 {
+    width: 66.666667%;
+}
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+element.style {
+    width: 100%;
+    height: 100%;
+    transform: translate3d(0px, 0px, 0px);
+    content-visibility: visible;
+}
+audio, canvas, embed, iframe, img, object, svg, video {
+    display: block;
+    vertical-align: middle;
+}
