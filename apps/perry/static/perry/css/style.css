@@ -5265,6 +5265,35 @@ OTHERS STYLE AREA
 ======================================================*/
 /*
 Preloader Area Style*/
+
+#generalLoader {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 100;
+  opacity: 0.75;
+  text-align: center;
+  padding-top: 400px;
+  display: none;
+}
+
+#generalLoader .message { 
+  font-size: large;
+  margin-top: 15px;
+}
+
+#generalLoader .spinner{ 
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: #34495e;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
 .preloader {
   width: 100%;
   height: 100%;

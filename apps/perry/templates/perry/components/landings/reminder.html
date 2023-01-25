@@ -15,7 +15,7 @@
                   با تنظیم اطلاعات، بیمه شما را یک روز قبل از سررسید به شما یادآوری
                   میکنیم
                 </p>
-                <form method="POST" enctype="multipart/form-data">
+                <form id="form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                   <div class="my-8">
                     <input
@@ -84,7 +84,7 @@
     <script>
         function sendData(){
             document.querySelector("form").valudate
-
+            showGeneralLoader('در حال دریافت اطلاعات...')
             const endpoint = '/api/reminders/';
 
             var data = JSON.stringify({
@@ -112,9 +112,14 @@
                 },
                 data: data,
                 url: endpoint,
-                success: action,
+                success: function(response){
+                  console.log(response);
+                  showSuccessMessage('اطلاعات با موفقیت ثبت شد')
+                  hideGeneralLoader();
+                    },
                 error: action,
             });
+            $('#form').trigger("reset");
         };
     </script>
     
