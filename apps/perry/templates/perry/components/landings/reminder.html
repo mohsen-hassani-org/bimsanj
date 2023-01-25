@@ -23,38 +23,20 @@
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
                       type="text"
                       placeholder="موبایل (مثلا 09123456789)"
-                      {% comment %} {...register("mobile")} {% endcomment %}
                     />
-                    {% comment %} {errors["mobile"] && (
-                      <p class="my-4 font-bold text-red-900">
-                        {errors["mobile"]?.message}
-                      </p>
-                    )} {% endcomment %}
                     <input
                       id="due_date"
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
                       type="text"
                       placeholder="تاریخ سررسید"
                       data-jdp required
-                      {% comment %} {...register("date")} {% endcomment %}
                     />
-                    {% comment %} {errors["date"] && (
-                      <p class="my-4 font-bold text-red-900">
-                        {errors["date"]?.message}
-                      </p>
-                    )} {% endcomment %}
                     <input
                       id="title"
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
                       type="text"
                       placeholder="نوع بیمه"
-                      {% comment %} {...register("type")} {% endcomment %}
                     />
-                    {% comment %} {errors["type"] && (
-                      <p class="my-4 font-bold text-red-900">
-                        {errors["type"]?.message}
-                      </p>
-                    )} {% endcomment %}
                     <button type="button" class="bg-[#058f1f] w-full text-white font-bold rounded-lg py-2 active:scale-95 ease-in-out duration-200" onclick="sendData()">
                       تایید
                     </button>
