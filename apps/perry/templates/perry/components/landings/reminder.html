@@ -1,4 +1,4 @@
-{% load static %}
+{% load static jalali_tags i18n %}
 {% block extrahead %}
 <link rel="stylesheet" href="{% static 'perry/css/reminder.css' %}">
 <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
@@ -35,6 +35,7 @@
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
                       type="text"
                       placeholder="تاریخ سررسید"
+                      data-jdp required
                       {% comment %} {...register("date")} {% endcomment %}
                     />
                     {% comment %} {errors["date"] && (
@@ -64,19 +65,6 @@
                 <div ref={bimeh} class=" rounded-lg w-2/3 mx-auto"></div>
               </div>
             </div>
-            
-      
-            {% comment %} {status =='complete' &&
-            <div class="fixed inset-0 bg-[#7e6aff] flex justify-center items-center flex-col">
-              <div class="relative">
-                <div onClick={()=>setStatus('')} class="fixed top-4 right-6 cursor-pointer text-white font-bold">بازگشت</div>
-                <div ref={completebimeh} class=" rounded-lg w-2/3 md:w-1/3 mx-auto"></div>
-                <p class="text-center text-3xl font-bold text-white ">
-                  اطلاعات با موفقیت ثبت شد.
-                </p>
-              </div>
-            </div>} {% endcomment %}
-      
           </div>
     </div>
 
@@ -85,20 +73,17 @@
         function sendData(){
             document.querySelector("form").valudate
             showGeneralLoader('در حال دریافت اطلاعات...')
+
             const endpoint = '/api/reminders/';
 
             var data = JSON.stringify({
                'mobile': $('#mobile').val(),
                'title': $('#title').val(),
                'due_date':$('#due_date').val(),
-               'user': {{request.user.id}}
+               'user': {{request.user.id}},
             });
 
             var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
-
-            var action = function(d){
-                console.log(d);
-            };
 
             $.ajax({
                 
@@ -117,9 +102,19 @@
                   showSuccessMessage('اطلاعات با موفقیت ثبت شد')
                   hideGeneralLoader();
                     },
-                error: action,
+                error: function (error) {
+                showErrorMessage("خطایی رخ داده است...")
+                hideGeneralLoader();
+            }
             });
             $('#form').trigger("reset");
         };
+    </script>
+
+    <script>
+      jalaliDatepicker.startWatch({
+        minDate: "attr",
+        maxDate: "attr"
+      }); 
     </script>
     
