@@ -1,7 +1,7 @@
 {% load static %}
 {% block extrahead %}
 <link rel="stylesheet" href="{% static 'perry/css/reminder.css' %}">
-
+<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
 {% endblock extrahead %}
 
     <div id="root">
@@ -15,9 +15,11 @@
                   با تنظیم اطلاعات، بیمه شما را یک روز قبل از سررسید به شما یادآوری
                   میکنیم
                 </p>
-                <form onSubmit={handleSubmit(submit)}>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
                   <div class="my-8">
                     <input
+                      id="mobile"
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
                       type="text"
                       placeholder="موبایل (مثلا 09123456789)"
@@ -29,6 +31,7 @@
                       </p>
                     )} {% endcomment %}
                     <input
+                      id="due_date"
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
                       type="text"
                       placeholder="تاریخ سررسید"
@@ -40,6 +43,7 @@
                       </p>
                     )} {% endcomment %}
                     <input
+                      id="title"
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
                       type="text"
                       placeholder="نوع بیمه"
@@ -50,7 +54,7 @@
                         {errors["type"]?.message}
                       </p>
                     )} {% endcomment %}
-                    <button class="bg-[#058f1f] w-full text-white font-bold rounded-lg py-2 active:scale-95 ease-in-out duration-200">
+                    <button type="button" class="bg-[#058f1f] w-full text-white font-bold rounded-lg py-2 active:scale-95 ease-in-out duration-200" onclick="sendData()">
                       تایید
                     </button>
                   </div>
@@ -75,4 +79,42 @@
       
           </div>
     </div>
+
+
+    <script>
+        function sendData(){
+            document.querySelector("form").valudate
+
+            const endpoint = '/api/reminders/';
+
+            var data = JSON.stringify({
+               'mobile': $('#mobile').val(),
+               'title': $('#title').val(),
+               'due_date':$('#due_date').val(),
+               'user': {{request.user.id}}
+            });
+
+            var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+
+            var action = function(d){
+                console.log(d);
+            };
+
+            $.ajax({
+                
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'json',
+                headers: { 
+                  "X-CSRFToken": $crf_token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json' 
+                },
+                data: data,
+                url: endpoint,
+                success: action,
+                error: action,
+            });
+        };
+    </script>
     
