@@ -39,6 +39,7 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'rest_framework',
     'django_quill',
+    'django_celery_beat',
 ]
 PROJECT_APPS = [
     'apps.users',

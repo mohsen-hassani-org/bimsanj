@@ -21,6 +21,7 @@ django-imagekit = "*"
 django-quill-editor = "*"
 tzdata = "*"
 celery = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 
