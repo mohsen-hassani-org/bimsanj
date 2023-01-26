@@ -16,7 +16,7 @@ celery_app.conf.task_queues = (
 celery_app.conf.task_default_queue = 'default'
 
 celery_app.conf.task_routes = {
-    'send_reminder_message_task' : {'queue' : 'reminder'},
+    'apps.insurance.tasks.send_message_insurance_reminder' : {'queue' : 'reminder'},
 }
 
 # Load task modules from all registered Django apps.

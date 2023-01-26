@@ -9,6 +9,7 @@ from .models import InsuranceReminder
 from .serializers import InsuranceReminderSerializer
 from datetime import datetime, timedelta
 from .tasks import send_message_insurance_reminder
+import jdatetime
 
 # Create your views here.
 
@@ -21,10 +22,8 @@ class InsuranceReminderView(GenericViewSet, CreateModelMixin):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        eta = datetime.now() + timedelta(seconds=10)
-        task = send_message_insurance_reminder.signature(
-            (serializer.validated_data['title'],
-            serializer.validated_data['mobile'],
-            serializer.validated_data['due_date']))
-        task.apply_async()
+        due_date = request.data['due_date']
+        j_year, j_month, j_day = [int(x) for x in due_date.split('/')]
+        date = jdatetime.date(j_year, j_month, j_day).togregorian()
+        serializer.instance.create_reminder(date)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
