@@ -22,6 +22,7 @@ django-quill-editor = "*"
 tzdata = "*"
 celery = "*"
 django-celery-beat = "*"
+flower = "*"
 
 [dev-packages]
 
