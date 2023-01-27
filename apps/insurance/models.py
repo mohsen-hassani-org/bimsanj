@@ -31,7 +31,9 @@ class InsuranceReminder(Timestampable, models.Model):
 
 
     def create_reminder(self, date):
-        schedule, _ = ClockedSchedule.objects.get_or_create(clocked_time=date + timedelta(days=-1))
+        reminder_time = datetime.strptime(str(date), "%Y-%m-%d")
+        reminder_time += timedelta(hours=-15)
+        schedule, _ = ClockedSchedule.objects.get_or_create(clocked_time=reminder_time)
         PeriodicTask.objects.update_or_create(
             name=f"Schedule for {self.title} - {self.mobile}",
             defaults={

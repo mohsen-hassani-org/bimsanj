@@ -7,8 +7,6 @@ from rest_framework.mixins import (
 )
 from .models import InsuranceReminder
 from .serializers import InsuranceReminderSerializer
-from datetime import datetime, timedelta
-from .tasks import send_message_insurance_reminder
 import jdatetime
 
 # Create your views here.
