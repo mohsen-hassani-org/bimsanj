@@ -5,9 +5,10 @@
 {% endblock extrahead %}
 
     <div id="root">
-        <div class="bg-[#7e6aff] min-h-screen">
-            <div class="  pt-20 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2">
-              <div class="">
+        <div class="bg-[#7e6aff]">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 row1">
                 <h1 class="text-2xl md:text-3xl font-bold text-white  ">
                   یادآوری بیمه
                 </h1>
@@ -16,8 +17,7 @@
                   میکنیم
                 </p>
                 <form id="form" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                  <div class="my-8">
+                    {% csrf_token %}               
                     <input
                       id="mobile"
                       class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
@@ -37,18 +37,17 @@
                       type="text"
                       placeholder="نوع بیمه"
                     />
-                    <button type="button" class="bg-[#058f1f] w-full text-white font-bold rounded-lg py-2 active:scale-95 ease-in-out duration-200" onclick="sendData()">
+                    <button class="bg-[#058f1f] w-full text-white font-bold rounded-lg py-2 active:scale-95 ease-in-out duration-200" onclick="sendData()">
                       تایید
                     </button>
-                  </div>
-                </form>
-              </div>
-              <div class="flex justify-center items-center">
-                <div ref={bimeh} class=" rounded-lg w-2/3 mx-auto"></div>
-              </div>
+                  </form>
+                </div>
+                <div  class="col-md-6 row2">
+                  <img style="float:left" src="{% static 'perry/img/reminder.png' %}" alt="reminder clender">
+                </div>
             </div>
-          </div>
-    </div>
+      </div>
+  </div>
 
 
     <script>
