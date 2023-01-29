@@ -151,11 +151,7 @@ button, input, optgroup, select, textarea {
 [role=button], button {
     cursor: pointer;
 }
-[type=button], [type=reset], [type=submit], button {
-    -webkit-appearance: button;
-    background-color: initial;
-    background-image: none;
-}
+
 button, select {
     text-transform: none;
 }
@@ -209,6 +205,11 @@ button, input, optgroup, select, textarea {
 }
 
 .row2{
-    margin: 15px 0
+    margin: 15px 0;
+}
+
+img {
+    margin-top: 20px;
+    float: left;
 }
 
