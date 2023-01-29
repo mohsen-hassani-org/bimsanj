@@ -39,6 +39,7 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'rest_framework',
     'django_quill',
+    'django_celery_beat',
 ]
 PROJECT_APPS = [
     'apps.users',
@@ -145,3 +146,6 @@ except ImportError:
     pass
 
 django_heroku.settings(locals())
+
+BROKER_URL = getenv('BROKER_URL')
+RESULT_BACKEND = getenv('RESULT_BACKEND')

@@ -1,0 +1,103 @@
+{% load static jalali_tags i18n %}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'perry/css/reminder.css' %}">
+<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+{% endblock extrahead %}
+
+    <div id="root">
+        <div class="bg-[#7e6aff]">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 row1">
+                <h1 class="text-2xl md:text-3xl font-bold text-white  ">
+                  یادآوری بیمه
+                </h1>
+                <p class=" text-white mt-2 font-bold">
+                  با تنظیم اطلاعات، بیمه شما را یک روز قبل از سررسید به شما یادآوری
+                  میکنیم
+                </p>
+                <form id="form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}               
+                    <input
+                      id="mobile"
+                      class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
+                      type="text"
+                      placeholder="موبایل (مثلا 09123456789)"
+                      required
+                    />
+                    <input
+                      id="due_date"
+                      class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
+                      type="text"
+                      placeholder="تاریخ سررسید"
+                      data-jdp required
+                    />
+                    <input
+                      id="title"
+                      class="block rounded-lg py-3 w-full my-2 pr-2 outline-none"
+                      type="text"
+                      placeholder="نوع بیمه"
+                      required
+                    />
+                    <button type="button" class="bg-[#058f1f] w-full text-white font-bold rounded-lg py-2 active:scale-95 ease-in-out duration-200" onclick="sendData()">
+                      تایید
+                    </button>
+                  </form>
+                </div>
+                <div  class="col-md-6 row2">
+                  <img style="float:left" src="{% static 'perry/img/reminder.png' %}" alt="reminder clender">
+                </div>
+            </div>
+      </div>
+  </div>
+
+
+    <script>
+        function sendData(){
+            document.querySelector("form").valudate
+            showGeneralLoader('در حال دریافت اطلاعات...')
+
+            const endpoint = '/api/reminders/';
+
+            var data = JSON.stringify({
+               'mobile': $('#mobile').val(),
+               'title': $('#title').val(),
+               'due_date':$('#due_date').val(),
+               'user': {{request.user.id}},
+            });
+
+            var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+
+            $.ajax({
+                
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'json',
+                headers: { 
+                  "X-CSRFToken": $crf_token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json' 
+                },
+                data: data,
+                url: endpoint,
+                success: function(response){
+                  console.log(response);
+                  showSuccessMessage('اطلاعات با موفقیت ثبت شد')
+                  hideGeneralLoader();
+                    },
+                error: function (error) {
+                showErrorMessage("خطایی رخ داده است...")
+                hideGeneralLoader();
+            }
+            });
+            $('#form').trigger("reset");
+        };
+    </script>
+
+    <script>
+      jalaliDatepicker.startWatch({
+        minDate: "attr",
+        maxDate: "attr"
+      }); 
+    </script>
+    

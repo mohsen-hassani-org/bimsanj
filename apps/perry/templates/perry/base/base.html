@@ -23,10 +23,24 @@
     <link rel="stylesheet" href="{% static 'perry/css/responsive.css' %}">
     <link rel="stylesheet" href="{% static 'perry/css/rtl.css' %}">
     <link rel="icon" type="image/png" href="{% static 'perry/img/favicon.png' %}">
-    <title>Perry - قالب HTML پری , پوسته سایت شرکتی بیمه</title>
-	</head>
+    <!-- iziToast -->
+    <link rel="stylesheet" href="{% static 'css/iziToast.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/iziToast.min.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'js/iziToast.js' %}"></script> 
+    <!-- jalaliDatePickerCdn -->
+    <link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
+    <script type="text/javascript" src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
 
+    <title>Perry - قالب HTML پری , پوسته سایت شرکتی بیمه</title>
+    {% block extrahead %}    {% endblock extrahead %}    
+	</head>
 	<body>
+        
+        <div id="generalLoader">
+            <span class="spinner"></span>
+            <div class="message"></div>
+        </div>
+
     <div class="preloader">
         <div class="lds-ripple">
             <div></div>
@@ -58,5 +72,18 @@
     <script src="{% static 'perry/js/contact-form-script.js' %}"></script>
     <script src="{% static 'perry/js/ajaxchimp.min.js' %}"></script>
     <script src="{% static 'perry/js/custom.js' %}"></script>
+
+    <script>
+        {% for message in messages %}
+            iziToast.show({
+            message: '{{message.message}}',
+            color: TOAST_LEVEL_TAGS['{{message.level}}'],
+            backgroundColor: TOAST_LEVEL_BGS['{{message.level}}'],
+            messageColor: TOAST_LEVEL_FGS['{{message.level}}'],
+            icon: TOAST_LEVEL_ICONS['{{message.level}}'],
+            iconColor: TOAST_LEVEL_FGS['{{message.level}}'],
+            });
+        {% endfor %}
+    </script>
 	</body>
 </html>

@@ -1290,3 +1290,100 @@
 
 	return $iziToast;
 });
+
+const TOAST_LEVEL_TAGS = {
+  '{{DEFAULT_MESSAGE_LEVELS.ERROR}}': 'red',
+  '{{DEFAULT_MESSAGE_LEVELS.INFO}}': 'blue',
+  '{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}': 'green',
+  '{{DEFAULT_MESSAGE_LEVELS.WARNING}}': 'yellow',
+};
+const TOAST_LEVEL_BGS = {
+  '{{DEFAULT_MESSAGE_LEVELS.ERROR}}': '#e74c3ce0',
+  '{{DEFAULT_MESSAGE_LEVELS.INFO}}': '#3498dbe0',
+  '{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}': '#26b99ae0',
+  '{{DEFAULT_MESSAGE_LEVELS.WARNING}}': '#f39c12e0',
+}
+const TOAST_LEVEL_ICONS = {
+  '{{DEFAULT_MESSAGE_LEVELS.ERROR}}': 'fa fa-ban',
+  '{{DEFAULT_MESSAGE_LEVELS.INFO}}': 'fa fa-info',
+  '{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}': 'fa fa-check',
+  '{{DEFAULT_MESSAGE_LEVELS.WARNING}}': 'fa fa-warning',
+}
+const TOAST_LEVEL_FGS = {
+  '{{DEFAULT_MESSAGE_LEVELS.ERROR}}': '#fff',
+  '{{DEFAULT_MESSAGE_LEVELS.INFO}}': '#fff',
+  '{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}': '#fff',
+  '{{DEFAULT_MESSAGE_LEVELS.WARNING}}': '#fff',
+}
+iziToast.settings({
+	position: 'topLeft',
+	timeout: 7000,
+	closeOnClick: true,
+	rtl: true,
+});
+const INFO_MESSAGE_OPTIONS = {
+	color: TOAST_LEVEL_TAGS['{{DEFAULT_MESSAGE_LEVELS.INFO}}'],
+	backgroundColor: TOAST_LEVEL_BGS['{{DEFAULT_MESSAGE_LEVELS.INFO}}'],
+	messageColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.INFO}}'],
+	icon: TOAST_LEVEL_ICONS['{{DEFAULT_MESSAGE_LEVELS.INFO}}'],
+	iconColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.INFO}}'],
+}
+const SUCCESS_MESSAGE_OPTIONS = {
+	color: TOAST_LEVEL_TAGS['{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}'],
+	backgroundColor: TOAST_LEVEL_BGS['{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}'],
+	messageColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}'],
+	icon: TOAST_LEVEL_ICONS['{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}'],
+	iconColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.SUCCESS}}'],
+}
+const WARNING_MESSAGE_OPTIONS = {
+	color: TOAST_LEVEL_TAGS['{{DEFAULT_MESSAGE_LEVELS.WARNING}}'],
+	backgroundColor: TOAST_LEVEL_BGS['{{DEFAULT_MESSAGE_LEVELS.WARNING}}'],
+	messageColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.WARNING}}'],
+	icon: TOAST_LEVEL_ICONS['{{DEFAULT_MESSAGE_LEVELS.WARNING}}'],
+	iconColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.WARNING}}'],
+}
+const ERROR_MESSAGE_OPTIONS = {
+	color: TOAST_LEVEL_TAGS['{{DEFAULT_MESSAGE_LEVELS.ERROR}}'],
+	backgroundColor: TOAST_LEVEL_BGS['{{DEFAULT_MESSAGE_LEVELS.ERROR}}'],
+	messageColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.ERROR}}'],
+	icon: TOAST_LEVEL_ICONS['{{DEFAULT_MESSAGE_LEVELS.ERROR}}'],
+	iconColor: TOAST_LEVEL_FGS['{{DEFAULT_MESSAGE_LEVELS.ERROR}}'],
+}
+function showInfoMessage(message, title = '', options = {}) {
+  iziToast.info({
+	title: title,
+	message: message,
+	...INFO_MESSAGE_OPTIONS,
+  });
+}
+function showSuccessMessage(message, title = '', options = {}) {
+  iziToast.success({
+	title: title,
+	message: message,
+	...SUCCESS_MESSAGE_OPTIONS,
+  });
+}
+function showWarningMessage(message, title = '', options = {}) {
+  iziToast.warning({
+	title: title,
+	message: message,
+	...WARNING_MESSAGE_OPTIONS,
+  });
+}
+function showErrorMessage(message, title = '', options = {}) {
+  iziToast.error({
+	title: title,
+	message: message,
+	...ERROR_MESSAGE_OPTIONS,
+  });
+}
+function showGeneralLoader(message) {
+  $("#generalLoader div").text(message);
+  $("#generalLoader").show();
+}
+function hideGeneralLoader() {
+  $("#generalLoader div").text("");
+  $("#generalLoader").hide();
+}
+
+
