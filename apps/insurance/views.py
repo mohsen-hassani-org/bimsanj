@@ -20,8 +20,6 @@ class InsuranceReminderView(GenericViewSet, CreateModelMixin):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        due_date = request.data['due_date']
-        j_year, j_month, j_day = [int(x) for x in due_date.split('/')]
-        date = jdatetime.date(j_year, j_month, j_day).togregorian()
+        date = serializer.data['due_date']
         serializer.instance.create_reminder(date)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

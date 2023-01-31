@@ -48,6 +48,7 @@
                   <img style="float:left" src="{% static 'perry/img/reminder.png' %}" alt="reminder clender">
                 </div>
             </div>
+          <div>
       </div>
   </div>
 
@@ -55,7 +56,7 @@
     <script>
         function sendData(){
             document.querySelector("form").valudate
-            showGeneralLoader('در حال دریافت اطلاعات...')
+            showGeneralLoader('در حال دریافت اطلاعات...');
 
             const endpoint = '/api/reminders/';
 
@@ -82,16 +83,16 @@
                 url: endpoint,
                 success: function(response){
                   console.log(response);
-                  showSuccessMessage('اطلاعات با موفقیت ثبت شد')
+                  showSuccessMessage('اطلاعات با موفقیت ثبت شد');
                   hideGeneralLoader();
                     },
                 error: function (error) {
-                showErrorMessage("خطایی رخ داده است...")
+                showErrorMessage("خطایی رخ داده است...");
                 hideGeneralLoader();
             }
             });
             $('#form').trigger("reset");
-        };
+        }
     </script>
 
     <script>
